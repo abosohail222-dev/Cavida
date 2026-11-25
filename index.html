@@ -190,7 +190,7 @@ function calc1(b,y,m){
  r.sk=has(M.sk)?+M.sk:0;r.sb=has(M.sb)?+M.sb:0;r.hs=(has(M.sk)||has(M.sb))?1:0;
  M.inv.forEach(v=>{r.ex[(v.t==='food'?'f':'p')+(v.hi?'i':'n')]+=num(v.tot)});
  r.exT=r.ex.fi+r.ex.fn+r.ex.pi+r.ex.pn;
- r.cost={bean:0,kit:0,wh:0};r.costT=num((M.op||{}).cos);const OP=M.op||{},DX=M.dx||{};r.opSal=num(OP.sal);r.opRent=num(OP.rent);r.opUtil=num(OP.util);r.dx={};DL.forEach(([k])=>{r.dx[k]=num(DX[k])});r.opDel=DL.reduce((a,[k])=>a+r.dx[k],0);r.xi=0;r.xe=0;(M.xo||[]).forEach(x=>{if(x.k==='i')r.xi+=num(x.a);else r.xe+=num(x.a)});r.rev+=r.xi;r.opT=r.opSal+r.opRent+r.opUtil+r.opDel+r.xe;r.fd=num(OP.fd);r.nf=r.ex.pi+r.ex.pn+r.fd;r.sal=r.opSal;r.ops=r.opT-r.opSal;r.oe=0;r.oi=0;r.dep=0;r.expAll=r.costT+r.opT+r.nf;r.ni0=r.rev-r.expAll;r.ni=r.ni0;
+ r.cost={bean:0,kit:0,wh:0};r.costT=num((M.op||{}).cos);const OP=M.op||{},DX=M.dx||{};r.opSal=num(OP.sal);r.opRent=num(OP.rent);r.opUtil=num(OP.util);r.dx={};DL.forEach(([k])=>{r.dx[k]=num(DX[k])});r.opDel=DL.reduce((a,[k])=>a+r.dx[k],0);r.xi=0;r.xe=0;(M.xo||[]).forEach(x=>{if(x.k==='i')r.xi+=num(x.a);else r.xe+=num(x.a)});r.rev+=r.xi;r.opT=r.opSal+r.opRent+r.opUtil+r.opDel+r.xe;r.fd=0;r.nf=r.ex.pi+r.ex.pn;r.sal=r.opSal;r.ops=r.opT-r.opSal;r.oe=0;r.oi=0;r.dep=0;r.expAll=r.costT+r.opT+r.nf;r.ni0=r.rev-r.expAll;r.ni=r.ni0;
  return r;
 }
 function CALC(b,y,m){if(b!==ALL)return calc1(b,y,m);const o={};S.branches.forEach(x=>addInto(o,calc1(x,y,m)));return o}
@@ -285,9 +285,8 @@ function pgHome(){
  const ni=`<div class="net" style="--c:${m.ni0<0?'#c92a2a':'#087f5b'};--c2:${m.ni0<0?'#e8590c':'#2f9e44'}"><div><small>📑 صافي الدخل</small>${V(money(m.ni0))}</div>${VI(P(m.ni0)+' من الإيرادات')}</div>`;
  const D=yearSeries().filter(d=>d.rev>0),hi=D.length?D.reduce((b,d)=>d.rev>b.rev?d:b):null,lo=D.length?D.reduce((b,d)=>d.rev<b.rev?d:b):null;
  const rank=`<div class="g2">${bx('أعلى شهر إيراداً — '+yr,hi?hi.n+' · '+money(hi.rev):'—',undefined,'#087f5b','🏆')}${bx('أقل شهر إيراداً — '+yr,lo&&D.length>1?lo.n+' · '+money(lo.rev):'—',undefined,'#c92a2a','📉')}</div>`;
- const fdBox=`<div class="card fdb"><b>🧾 فروقات فواتير</b> <span class="tx">رقم يدوي يُرحَّل إلى المصروفات النثرية في قائمة الدخل</span>${br===ALL?`<div class="tv">${V(money(m.fd))}</div>`:`<div style="margin-top:8px">${IN('iv:op:fd',(mo(br,yr,mi).op||{}).fd)}</div>`}</div>`;
  const hint=R>0?'':`<div class="card"><p class="hint">لا توجد إيرادات لهذا الشهر بعد. أدخلها من <b>تفاصيل المبيعات</b> ومن <b>قائمة الدخل</b> (أرصدة شركات التوصيل)${br===ALL?' بعد اختيار فرع':''}.</p></div>`;
- return `<div class="xbar">${btn('xlAll','⬇ تصدير كل الأقسام Excel')}</div>`+big+tiles+hint+`<div class="hgrid">${costs}</div>${ni}${rank}${chartRev()}${chartCost()}`+fdBox;
+ return `<div class="xbar">${btn('xlAll','⬇ تصدير كل الأقسام Excel')}</div>`+big+tiles+hint+`<div class="hgrid">${costs}</div>${ni}${rank}${chartRev()}${chartCost()}`;
 }
 function pgSales(){
  if(br===ALL)return ph('📋 جدول تفاصيل المبيعات')+needBr();
