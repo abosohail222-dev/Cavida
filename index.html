@@ -83,6 +83,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .fm select{width:auto;min-width:170px}
 .fm input[type=date]{width:150px}.fm input[type=file]{width:210px;border:0;background:transparent}
 .tag{display:inline-block;background:#fff3bf;color:#7a5d00;border-radius:999px;padding:0 10px;font-size:.8rem;font-weight:800}
+.sn{display:flex;align-items:center;gap:8px;border:0;border-radius:14px;padding:9px 12px;background:var(--surface2);color:var(--ink);font-weight:800;text-align:right;border-inline-start:6px solid var(--c)}
+.sn.on{background:var(--c);color:#fff}.sn:hover{filter:brightness(.97)}
+.sg{display:flex;flex-direction:column;gap:6px}
+@media (max-width:860px){.side{flex-direction:column;overflow:visible}.side h3{display:block}.sg{flex-direction:row;overflow-x:auto;padding-bottom:4px}.sn{flex:none;white-space:nowrap}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 .hgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-bottom:14px;align-items:start}
@@ -113,6 +117,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .acct{display:inline-block;background:#e6fcf5;color:#087f5b;border-radius:999px;padding:2px 10px;font-size:.82rem;font-weight:700;white-space:nowrap}
 .acct.no{background:#fff3bf;color:#a65e00}.lnk{border:0;background:none;color:#1864ab;text-decoration:underline;font-weight:700;cursor:pointer;padding:0 4px}
 .cc{background:var(--surface);border-radius:20px;padding:16px 18px 10px;box-shadow:0 6px 22px rgba(40,30,90,.12);margin-bottom:14px}.cch{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.cch b{font-size:1.1rem}.cch small{display:block;color:var(--muted);font-weight:600}.lg{display:flex;gap:14px;flex-wrap:wrap}.lg span{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.85rem}.lg i{width:12px;height:12px;border-radius:4px;display:inline-block}.cs{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 6px}.cs div{background:var(--surface2);border-radius:12px;padding:6px 14px}.cs small{display:block;font-size:.75rem;color:var(--muted);font-weight:700}.cs b{font-size:1rem}.cc svg{width:100%;height:auto;display:block}.cc .emp{padding:30px;text-align:center;color:var(--muted)}.xbar{display:flex;justify-content:flex-end;margin:0 0 10px}
+.bigt{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#087f5b,#2f9e44);color:#fff;border-radius:24px;padding:22px 26px;margin-bottom:14px;box-shadow:0 10px 28px rgba(8,127,91,.3)}.bi{font-size:3.4rem;background:rgba(255,255,255,.2);border-radius:20px;padding:6px 18px}.bigt small{display:block;font-weight:700;opacity:.95;font-size:1.05rem}.bv b{font-size:3rem;font-weight:800}.tg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:6px}.tl{background:var(--surface);border-radius:20px;padding:16px 18px;border-top:7px solid var(--c);box-shadow:0 6px 20px rgba(40,30,90,.12)}.tt{display:flex;align-items:center;gap:8px;font-weight:700}.ti{font-size:1.7rem;background:var(--surface2);border-radius:12px;padding:2px 9px}.tv{margin:10px 0 4px}.tv b{font-size:1.7rem;font-weight:800;color:var(--c)}.tp{display:flex;align-items:center;gap:8px}.tp em{font-style:normal;background:var(--c);color:#fff;border-radius:999px;padding:1px 12px;font-weight:800}.tx{color:var(--muted);font-size:.8rem}.tl .bar{margin-top:10px}.ie{display:inline-flex;align-items:center;gap:6px}.ie input{width:130px}.up{color:#087f5b;font-weight:700}.dn{color:#c92a2a;font-weight:700}
 </style>
 </head>
 <body>
@@ -142,11 +147,11 @@ const V=(t,c)=>`<b${c?` class="${c}"`:''} data-c="${++_c}">${t}</b>`;
 const VI=(t)=>`<em data-c="${++_c}">${t}</em>`;
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const IT=b=>S.bi[b]||(S.bi[b]=[]);
-const mk=()=>({days:[],stk:{},inv:[],ops:[],sal:[],pur:[],dep:0,wb:0,wk:0,xo:[],sk:'',sb:''});
-const mo=(b,y,m)=>{const k=`${b}|${y}|${m}`,M=S.mo[k]||(S.mo[k]=mk());if(!M.pur)M.pur=[];if(M.wb===undefined)M.wb=0;if(M.wk===undefined)M.wk=0;if(!M.xo)M.xo=[];return M};
+const mk=()=>({rv:{},dx:{},op:{},days:[],stk:{},inv:[],ops:[],sal:[],pur:[],dep:0,wb:0,wk:0,xo:[],sk:'',sb:''});
+const mo=(b,y,m)=>{const k=`${b}|${y}|${m}`,M=S.mo[k]||(S.mo[k]=mk());if(!M.pur)M.pur=[];if(M.wb===undefined)M.wb=0;if(M.wk===undefined)M.wk=0;if(!M.xo)M.xo=[];if(!M.rv)M.rv={};if(!M.dx)M.dx={};if(!M.op)M.op={};return M};
 function seed(){
  const items=[['بن برازيلي','كجم',180,'bean',12],['بن كولومبي','كجم',210,'bean',10],['حليب','لتر',6.5,'wh',150],['سكر','كجم',5,'wh',40],['أكواب ورقية','حبة',.35,'wh',3000],['عجينة كرواسون','كجم',28,'kit',60],['شوكولاتة طبخ','كجم',55,'kit',20]].map(([n,u,p,t,q],i)=>({id:'i'+i,n,u,p,t,q}));
- S={company:'Cavida',cur:'ر.س',branches:['فرع جازان','فرع نجران'],bi:{},mo:{}};S.branches.forEach(b=>{S.bi[b]=items.map(({q,...r})=>({...r}))});
+ S={company:'Cavida',cur:'ر.س',branches:['الجوافة','قرطبة','الجامعة','فتات'],bi:{},mo:{}};S.branches.forEach(b=>{S.bi[b]=items.map(({q,...r})=>({...r}))});
  S.branches.forEach((b,bi)=>{const sc=[1,.75][bi],r=rng(11+bi*7);
   [8,9].forEach(m=>{const M=mo(b,2026,m);
    for(let d=1;d<=28;d+=3){const rv=(a,z)=>Math.round((a+r()*(z-a))*sc),kt=rv(1500,3000),jz=rv(800,2000),hs=rv(1000,2500),nj=rv(400,1200),net=rv(8000,14000),cash=rv(3000,6000),disc=rv(100,300);
@@ -175,7 +180,7 @@ function addInto(a,b){for(const k in b){if(typeof b[k]==='object')addInto(a[k]=a
 function calc1(b,y,m){
  const M=mo(b,y,m),r={dl:{kt:0,jz:0,hs:0,nj:0},net:0,cash:0,sysNet:0,sysCash:0,bank:0,cost:{bean:0,kit:0,wh:0},waste:{bean:0,kit:0},pur:{bean:0,kit:0,wh:0},ex:{fi:0,fn:0,pi:0,pn:0}};
  M.days.forEach(d=>{DL.forEach(([k])=>r.dl[k]+=num(d[k]));r.net+=num(d.bud);r.cash+=num(d.act);r.sysNet+=num(d.net);r.sysCash+=num(d.cash);r.bank+=num(d.bank)});
- r.del=DL.reduce((a,[k])=>a+r.dl[k],0);r.rev=r.del+r.net+r.cash;
+ {const B=M.dlb||{};DL.forEach(([k])=>{r.dl[k]=num(B[k])})}r.del=DL.reduce((a,[k])=>a+r.dl[k],0);r.rev=r.del+r.net+r.cash;
  IT(b).forEach(it=>{const s=srow(b,y,m,it);if(s.v!==null)r.cost[it.t]+=s.v;r.pur[it.t]+=s.pv});
  M.pur.forEach(v=>{if(v.cost){const t=num(v.total);r.cost[v.t]+=t;r.pur[v.t]+=t}});
  r.waste.bean=num(M.wb);r.waste.kit=num(M.wk);r.cost.bean+=r.waste.bean;r.cost.kit+=r.waste.kit;
@@ -185,7 +190,7 @@ function calc1(b,y,m){
  r.sk=has(M.sk)?+M.sk:0;r.sb=has(M.sb)?+M.sb:0;r.hs=(has(M.sk)||has(M.sb))?1:0;
  M.inv.forEach(v=>{r.ex[(v.t==='food'?'f':'p')+(v.hi?'i':'n')]+=num(v.tot)});
  r.exT=r.ex.fi+r.ex.fn+r.ex.pi+r.ex.pn;
- r.expAll=r.costT+r.sal+r.ops+r.oe;r.ni0=r.rev+r.oi-r.expAll;r.ni=r.ni0-r.dep;
+ r.cost={bean:0,kit:0,wh:0};r.costT=num((M.op||{}).cos);const OP=M.op||{},DX=M.dx||{};r.opSal=num(OP.sal);r.opRent=num(OP.rent);r.opUtil=num(OP.util);r.dx={};DL.forEach(([k])=>{r.dx[k]=num(DX[k])});r.opDel=DL.reduce((a,[k])=>a+r.dx[k],0);r.xi=0;r.xe=0;(M.xo||[]).forEach(x=>{if(x.k==='i')r.xi+=num(x.a);else r.xe+=num(x.a)});r.rev+=r.xi;r.opT=r.opSal+r.opRent+r.opUtil+r.opDel+r.xe;r.fd=num(OP.fd);r.nf=r.ex.pi+r.ex.pn+r.fd;r.sal=r.opSal;r.ops=r.opT-r.opSal;r.oe=0;r.oi=0;r.dep=0;r.expAll=r.costT+r.opT+r.nf;r.ni0=r.rev-r.expAll;r.ni=r.ni0;
  return r;
 }
 function CALC(b,y,m){if(b!==ALL)return calc1(b,y,m);const o={};S.branches.forEach(x=>addInto(o,calc1(x,y,m)));return o}
@@ -205,28 +210,23 @@ async function xlm(name,sheets,plain){
 }
 const xl=(name,rows)=>xlm(name,[[AR[mi],rows]]);
 /* ---- بناة صفوف Excel ---- */
-const rSales=M=>[['التاريخ','كيتا','جاهز','هنجرستيشن','نينجا','الشبكة بالنظام','الكاش بالنظام','عدد الطلبات','الخصم','المبيعات شامل الموازنة','الموازنة','البنك','الكاش الفعلي'],...M.days.map(d=>[d.d,...DL.map(([k])=>num(d[k])),...['net','cash','ord','disc'].map(k=>num(d[k])),DL.reduce((t,[k])=>t+num(d[k]),0)+num(d.cash)+num(d.bud),...['bud','bank','act'].map(k=>num(d[k]))])];
+const rSales=M=>{const D=M.days,sm=k=>D.reduce((a,d)=>a+num(d[k]),0),R=[['التاريخ','الشبكة بالنظام','الموازنة','الكاش بالنظام','الكاش الفعلي','فرق الشبكة والموازنة','فرق الكاش بالنظام والفعلي','نتيجة الفرق']];let t1=0,t2=0;D.forEach(d=>{const a=num(d.net)-num(d.bud),b=num(d.cash)-num(d.act);t1+=a;t2+=b;R.push([d.d,num(d.net),num(d.bud),num(d.cash),num(d.act),a,b,a+b])});R.push(['الإجمالي',sm('net'),sm('bud'),sm('cash'),sm('act'),t1,t2,t1+t2]);return R};
 const rInv=M=>[['التاريخ','رقم الفاتورة','اسم المورد','نوع الفاتورة','بفاتورة','الإجمالي بالضريبة','المبلغ بدون الضريبة','الضريبة'],...M.inv.map(v=>[v.d,v.no||'',v.sup,v.t==='food'?'غذائية':'نثرية',v.hi?'نعم':'لا',num(v.tot),num(v.tot)-num(v.tax),num(v.tax)])];
 const rStk=()=>{let to=0,tp=0,tc=0,tv=0;const rws=IT(br).map(it=>{const s=srow(br,yr,mi,it),ov=s.o*s.P,cv=s.c===undefined?null:s.c*s.P;to+=ov;tp+=s.pv;if(s.v!==null){tv+=s.v;tc+=cv}return[it.n,TYP[it.t][0],it.u,+s.P.toFixed(4),s.o,+ov.toFixed(2),s.p,+s.pv.toFixed(2),s.c===undefined?'':s.c,cv===null?'':+cv.toFixed(2),s.q===null?'':+s.q.toFixed(2),s.v===null?'':+s.v.toFixed(2)]});return [['الصنف','النوع','الوحدة','السعر','الكمية أول المدة','القيمة أول المدة','المشتريات (الكمية)','قيمة المشتريات','الكمية آخر المدة (الجرد)','القيمة آخر المدة','كمية الاستهلاك','قيمة الاستهلاك'],...rws,['الإجمالي','','','','',+to.toFixed(2),'',+tp.toFixed(2),'',+tc.toFixed(2),'',+tv.toFixed(2)]]};
-const rInc=()=>{const{L,R}=incList();return [['البند','المبلغ','النسبة إلى إجمالي الإيراد'],...L.map(r=>r.k==='h'?[r.t,'','']:[r.t,+r.a.toFixed(2),R?+(r.a/R).toFixed(4):''])]};
+const rInc=()=>{const{L,R}=incList(true);return [['البند','المبلغ','النسبة إلى إجمالي الإيراد'],...L.filter(r=>r.k!=='add').map(r=>r.k==='h'?[r.t,'','']:[r.t,+r.a.toFixed(2),R?+(r.a/R).toFixed(4):''])]};
 const rBuyI=()=>[['الصنف','النوع','الوحدة','سعر الوحدة','الكمية المشتراة في الشهر','قيمة المشتريات'],...IT(br).map(it=>{const s=srow(br,yr,mi,it);return[it.n,TYP[it.t][0],it.u,+s.P.toFixed(4),s.pq,+s.pv.toFixed(2)]})];
 const rBuyP=M=>{const R=[['التاريخ','رقم الفاتورة','المورد','النوع','الصنف','الكمية','الوحدة','المبلغ','إجمالي الفاتورة بالضريبة','الضريبة','ملاحظة']];M.pur.forEach(v=>{if(v.cost||!v.lines||!v.lines.length)R.push([v.d,v.no||'',v.sup||'',TYP[v.t][0],'','','','',num(v.total),num(v.tax),'تكلفة فقط']);else v.lines.forEach((l,k)=>{const it=IT(br).find(i=>i.id===l.i)||{};R.push([v.d,v.no||'',v.sup||'',TYP[v.t][0],it.n||'',num(l.q),it.u||'',num(l.a),k?'':num(v.total),k?'':num(v.tax),''])})});return R};
 const rMan=M=>{const R=[['القسم','البند','المبلغ'],['الهالك','هالك البن',num(M.wb)],['الهالك','هالك المطبخ',num(M.wk)]];M.ops.forEach(x=>R.push(['المصروفات التشغيلية',x.n,num(x.a)]));M.sal.forEach(x=>R.push(['الرواتب',x.n,num(x.a)]));R.push(['الإهلاك والإطفاء','مصروفات الإهلاك والإطفاء',num(M.dep)]);M.xo.forEach(x=>R.push([x.k==='i'?'إيرادات أخرى':'مصروفات أخرى',x.n||'بند بدون اسم',num(x.a)]));return R};
 const rCash=()=>{const m=calc1(br,yr,mi);return[['البند','المبلغ'],['إجمالي الكاش الفعلي',+m.cash.toFixed(2)],['(−) غذائية بفاتورة',m.ex.fi],['(−) غذائية بدون فاتورة',m.ex.fn],['(−) نثرية بفاتورة',m.ex.pi],['(−) نثرية بدون فاتورة',m.ex.pn],['الرصيد المتبقي من الكاش',+(m.cash-m.exT).toFixed(2)]]};
-const rAnaI=()=>{if(!ana){ana=[];for(let i=0;i<12;i++)if(CALC(br,yr,i).rev>0)ana.push(i)}const sel=[...ana].sort((a,b)=>a-b),C=sel.map(i=>CALC(br,yr,i));return[['البند',...sel.flatMap(i=>[AR[i],AR[i]+' (% من الإيرادات)'])],...AI.map(([n,f])=>[n,...C.flatMap(m=>[+f(m).toFixed(2),m.rev?+(f(m)/m.rev).toFixed(4):''])])]};
-const rAnaS=()=>{if(!cmp)cmp=[1,2,3];const cur=CALC(br,yr,mi),sel=[...cmp].sort((a,b)=>a-b),C=sel.map(k=>{const q=mAt(k);return CALC(br,q.y,q.m)}),R=[['البند',AR[mi]+' '+yr+' (الحالي)',...sel.map(k=>mAt(k).l)]];CATS.forEach(([t,ic,n,sk])=>{R.push(['مبيعات '+n,+cur[sk].toFixed(2),...C.map(m=>+m[sk].toFixed(2))]);R.push(['تكلفة '+n,+cur.cost[t].toFixed(2),...C.map(m=>+m.cost[t].toFixed(2))]);R.push(['نسبة التكلفة إلى المبيعات',cur[sk]?+(cur.cost[t]/cur[sk]).toFixed(4):'',...C.map(m=>m[sk]?+(m.cost[t]/m[sk]).toFixed(4):'')])});return R};
+const rAnaI=()=>{if(!ana){ana=[];for(let i=0;i<12;i++)if(CALC(br,yr,i).rev>0||CALC(br,yr,i).expAll>0)ana.push(i)}const sel=[...ana].sort((a,b)=>a-b),C=sel.map(i=>CALC(br,yr,i)),LS=C.map(incOf);return[['البند',...sel.flatMap(i=>[AR[i],AR[i]+' (% من الإيرادات)'])],...(LS[0]||[]).map((x,ri)=>x.k==='h'?[x.t]:[x.t,...LS.flatMap((L,j)=>[+L[ri].a.toFixed(2),C[j].rev?+(L[ri].a/C[j].rev).toFixed(4):''])])]};
+
 const rMap=()=>[['البند','رقم حساب دفترة','اسم الحساب'],...DMAP.map(([k,n])=>[n,(S.dmap||{})[k]?(S.dmap[k].c||''):'',(S.dmap||{})[k]?(S.dmap[k].n||''):''])];
 const rUsers=()=>[['الاسم','البريد الإلكتروني','الدور','الفرع'],...(USERS||[]).map(u=>[u.full_name||'',u.email,ROLEN[u.role]||'غير معتمد',BNAME[u.branch_id]||''])];
 const rLog=()=>{const A=(AUD||[]).filter(r=>(!audU||r.email===audU)&&(!audB||r.branch_id===audB)),tm=t=>new Date(t).toLocaleString('en-GB',{timeZone:'Asia/Riyadh',hour12:false,dateStyle:'short',timeStyle:'short'});return[['الوقت','المستخدم','الفرع','العملية','التفاصيل'],...A.map(r=>[tm(r.at),r.email||'',BNAME[r.branch_id]||'',(ALAB[r.action]||r.action)+' '+audTarget(r.target),audDetail(r)])]};
-const rHome=()=>{const m=CALC(br,yr,mi),R=m.rev,p=v=>R?+(v/R).toFixed(4):'',row=(n,v)=>[n,+(+v).toFixed(2),p(v)];return[['البند','المبلغ','النسبة إلى إجمالي الإيرادات'],row('إجمالي الإيرادات',R),row('الكاش الفعلي',m.cash),row('الشبكة (الموازنة)',m.net),...DL.map(([k,n])=>row('إيرادات '+n,m.dl[k])),row('تكلفة المبيعات',m.costT),...['bean','kit','wh'].map(t=>row('تكلفة '+TYP[t][0],m.cost[t])),row('المصروفات التشغيلية',m.ops),row('الرواتب',m.sal),row('مصروفات أخرى',m.oe),row('المصروفات النقدية الغذائية',m.ex.fi+m.ex.fn),row('المصروفات النقدية النثرية',m.ex.pi+m.ex.pn),row('صافي الدخل (بدون الإهلاك والإطفاء)',m.ni0)]};
+const rHome=()=>{const m=CALC(br,yr,mi),R=m.rev,p=v=>R?+(v/R).toFixed(4):'',row=(n,v)=>[n,+(+v).toFixed(2),p(v)];return[['البند','المبلغ','النسبة إلى إجمالي الإيرادات'],row('إجمالي الإيرادات',R),row('الكاش الفعلي',m.cash),row('الشبكة (الموازنة)',m.net),...DL.map(([k,n])=>row('إيرادات '+n,m.dl[k])),row('تكلفة المبيعات',m.costT),row('المصروفات التشغيلية',m.ops),row('الرواتب',m.sal),row('مصروفات أخرى',m.oe),row('المصروفات النقدية الغذائية',m.ex.fi+m.ex.fn),row('المصروفات النقدية النثرية',m.ex.pi+m.ex.pn),row('صافي الدخل (بدون الإهلاك والإطفاء)',m.ni0)]};
 const rYear=()=>[['الشهر','الإيرادات','الكاش','الشبكة','شركات التوصيل','التكاليف التشغيلية','تكلفة المبيعات'],...yearSeries().map(d=>[d.n,+d.rev.toFixed(2),+d.cash.toFixed(2),+d.net.toFixed(2),+d.del.toFixed(2),+d.op.toFixed(2),+d.cost.toFixed(2)])];
-function xlAll(M){
- const L=[['ملخص الشهر',rHome()],['الإيرادات والتكاليف السنوية',rYear()]];
- if(M){L.push(['المبيعات',rSales(M)],['الفواتير',rInv(M)],['أصناف المخزون',rBuyI()],['مشتريات المخزون',rBuyP(M)],['الجرد',rStk()],['الهالك والرواتب',rMan(M)],['عهدة الكاش',rCash()])}
- L.push(['قائمة الدخل',rInc()],['مقارنة الشهور',rAnaI()],['المبيعات والتكلفة',rAnaS()]);
- return xlm('تقرير شامل',L);
-}
-const NAV=[['buy','المخزون','📦','#c2255c'],['stk','الجرد','✅','#5f3dc4'],['man','الهالك والمصروفات والرواتب','🧮','#d9480f'],['sales','جدول تفاصيل المبيعات','📋','#1864ab'],['exp','المصروفات والفواتير','🧾','#087f5b'],['cash','تصفية عهدة الكاش','💵','#0b7285'],['ana','التحليل','📈','#a61e4d'],['inc','قائمة الدخل','📑','#7a4f2e']];
+function xlAll(M){const L=[['قائمة الدخل',rInc()],['مقارنة الشهور',rAnaI()]];if(M)L.unshift(['المبيعات',rSales(M)],['الفواتير',rInv(M)]);return xlm('تقرير شامل',L)}
+const NAV=[['sales','تفاصيل المبيعات','📋','#1971c2'],['exp','المصروفات والفواتير','🧾','#087f5b'],['inc','قائمة الدخل','📑','#7a4f2e'],['ana','التحليل','📈','#a61e4d']];
 let ana=null;
 const IN=(p,v,t)=>`<input data-b="${p}" type="${t||'number'}"${t?'':' step="any" inputmode="decimal"'} value="${t?esc(v):(has(v)?+(+v).toFixed(2):'')}">`;
 const TH=(t,c)=>`<th${c?` class="${c}"`:''}>${t}</th>`;
@@ -250,7 +250,7 @@ function addUnitName(n){n=String(n||'').trim();if(!n||UNITS().includes(n))return
 /* ---------- الرسوم البيانية ---------- */
 const kk=v=>{const a=Math.abs(v),g=v<0?'−':'';return a>=1e6?g+(a/1e6).toFixed(1)+'M':a>=1e4?g+Math.round(a/1e3)+'k':a>=1e3?g+(a/1e3).toFixed(1)+'k':g+Math.round(a)};
 const nice=v=>{if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v))),f=v/p;return(f<=1?1:f<=2?2:f<=4?4:f<=8?8:10)*p};
-function yearSeries(){return AR.map((n,i)=>{const m=CALC(br,yr,i);return{i,n,rev:m.cash+m.net+m.del,cash:m.cash,net:m.net,del:m.del,op:m.ops+m.sal+m.oe,cost:m.costT}})}
+function yearSeries(){return AR.map((n,i)=>{const m=CALC(br,yr,i);return{i,n,rev:m.rev,cash:m.cash,net:m.net,del:m.del,xi:m.xi||0,op:m.opT,cost:m.costT}})}
 function barSVG(D,L,mode){
  const W=760,H=290,pl=10,pr=50,pt=22,pb=30,iw=W-pl-pr,ih=H-pt-pb,sl=iw/12;
  const tot=d=>mode==='stack'?L.reduce((a,x)=>a+Math.max(0,d[x.k]),0):Math.max(...L.map(x=>Math.max(0,d[x.k])),0);
@@ -266,28 +266,28 @@ function barSVG(D,L,mode){
 const ccard=(t,sub,L,chips,body)=>`<div class="cc"><div class="cch"><div><b>${t}</b><small>${sub}</small></div><div class="lg">${L.map(x=>`<span><i style="background:${x.c}"></i>${x.n}</span>`).join('')}</div></div><div class="cs">${chips.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('')}</div>${body}</div>`;
 const scope=()=>br===ALL?'كل الفروع':esc(br);
 function chartRev(){
- const D=yearSeries(),T=D.reduce((a,d)=>a+d.rev,0),A=D.filter(d=>d.rev>0),best=A.length?A.reduce((b,d)=>d.rev>b.rev?d:b):null;
- const L=[{k:'cash',n:'الكاش الفعلي',c:'#0b7285'},{k:'net',n:'الشبكة',c:'#1864ab'},{k:'del',n:'شركات التوصيل',c:'#e8590c'}];
- return ccard(`📊 الإيرادات الشهرية — ${yr}`,`${scope()} · اضغط على أي شهر للانتقال إليه`,L,[['إجمالي السنة',money(T)],['متوسط الشهر',A.length?money(T/A.length):'—'],['أعلى شهر',best?`${best.n} (${money(best.rev)})`:'—']],T>0?barSVG(D,L,'stack'):'<div class="emp">لا توجد إيرادات مسجلة في هذه السنة بعد.</div>');
+ const D=yearSeries(),T=D.reduce((a,d)=>a+d.rev,0),A=D.filter(d=>d.rev>0),best=A.length?A.reduce((b,d)=>d.rev>b.rev?d:b):null,worst=A.length?A.reduce((b,d)=>d.rev<b.rev?d:b):null;
+ const L=[{k:'cash',n:'الكاش الفعلي',c:'#0b7285'},{k:'net',n:'الشبكة',c:'#1864ab'},{k:'del',n:'شركات التوصيل',c:'#e8590c'},{k:'xi',n:'إيرادات أخرى',c:'#7048e8'}];
+ return ccard(`📊 الإيرادات الشهرية — ${yr}`,`${scope()} · اضغط على أي شهر للانتقال إليه`,L,[['إجمالي السنة',money(T)],['متوسط الشهر',A.length?money(T/A.length):'—'],['أعلى شهر',best?`${best.n} (${money(best.rev)})`:'—'],['أقل شهر',worst&&A.length>1?`${worst.n} (${money(worst.rev)})`:'—']],T>0?barSVG(D,L,'stack'):'<div class="emp">لا توجد إيرادات مسجلة في هذه السنة بعد.</div>');
 }
 function chartCost(){
  const D=yearSeries(),R=D.reduce((a,d)=>a+d.rev,0),O=D.reduce((a,d)=>a+d.op,0);
  const L=[{k:'rev',n:'الإيرادات',c:'#087f5b'},{k:'op',n:'التكاليف التشغيلية',c:'#c2410c'}];
- return ccard(`⚖️ التكاليف التشغيلية مقابل الإيرادات — ${yr}`,`${scope()} · التكاليف التشغيلية = المصروفات التشغيلية + الرواتب + المصروفات الأخرى`,L,[['إجمالي الإيرادات',money(R)],['التكاليف التشغيلية',money(O)],['نسبتها إلى الإيرادات',R?pct(O,R):'—'],['الفرق',money(R-O)]],(R>0||O>0)?barSVG(D,L,'group'):'<div class="emp">لا توجد بيانات في هذه السنة بعد.</div>');
+ return ccard(`⚖️ التكاليف التشغيلية مقابل الإيرادات — ${yr}`,`${scope()} · التكاليف التشغيلية = الرواتب + الإيجارات + المرافق + مصروفات التوصيل + البنود الإضافية`,L,[['إجمالي الإيرادات',money(R)],['التكاليف التشغيلية',money(O)],['نسبتها إلى الإيرادات',R?pct(O,R):'—'],['الفرق',money(R-O)]],(R>0||O>0)?barSVG(D,L,'group'):'<div class="emp">لا توجد بيانات في هذه السنة بعد.</div>');
 }
 function pgHome(){
- const m=CALC(br,yr,mi),R=m.rev,P=x=>pct(x,R),cm=m.costT+m.ops+m.sal+m.oe;
- const hero=`<div class="hero"><div class="ht"><span class="hi">💰</span><div><small>إجمالي الإيرادات</small>${V(money(R))}</div></div>
-  ${rl([['الكاش الفعلي',m.cash,'#fff','💵'],['الشبكة (رصيد الموازنة)',m.net,'#fff','💳'],['شركات التوصيل',m.del,'#fff','🚚']],R,'lt')}
-  <div class="sub"><small>🚚 تفصيل شركات التوصيل</small>${rl(DL.map(([k,n])=>[n,m.dl[k],'#fff']),m.del||R,'lt sm')}</div></div>`;
- const costs=`<div class="pc"><div class="ph2"><span class="hi">🧮</span><div><small>تكاليف الشهر</small>${V(money(cm))}${VI(P(cm)+' من الإيرادات')}</div></div>
-  ${rl([['تكلفة المبيعات',m.costT,'#7048e8','🧾'],['المصروفات التشغيلية',m.ops,'#e8590c','🏢'],['الرواتب',m.sal,'#1971c2','👥'],['مصروفات أخرى',m.oe,'#c2255c','🧩']],R)}
-  <div class="sub"><small>🧾 تفصيل تكلفة المبيعات</small>${rl(['bean','kit','wh'].map(t=>[TYP[t][0],m.cost[t],TYP[t][2],TYP[t][1]]),R,'sm')}</div>
-  ${m.oi?`<div class="inc">➕ إيرادات أخرى: ${V(money(m.oi))} ${VI(P(m.oi))}</div>`:''}</div>`;
- const ni=`<div class="net" style="--c:${m.ni0<0?'#c92a2a':'#087f5b'};--c2:${m.ni0<0?'#e8590c':'#2f9e44'}"><div><small>📑 صافي الدخل (بدون الإهلاك والإطفاء)</small>${V(money(m.ni0))}</div>${VI(P(m.ni0)+' من الإيرادات')}</div>`;
- const exp=`<div class="pc"><div class="ph3"><b>💳 المصروفات النقدية (غذائية ونثرية)</b><span>${V(money(m.exT))}</span></div>${rl([['غذائية بفاتورة',m.ex.fi,'#2f9e44'],['غذائية بدون فاتورة',m.ex.fn,'#74b816'],['نثرية بفاتورة',m.ex.pi,'#e8590c'],['نثرية بدون فاتورة',m.ex.pn,'#f08c00']],m.exT||R)}</div>`;
- return`<div class="xbar">${btn('xlAll','⬇ تصدير كل الأقسام Excel')}</div><div class="hgrid">${hero}${costs}</div>${chartRev()}${chartCost()}${ni}${exp}
- <h3 style="color:#14121f;margin:10px 4px 6px">⚙️ العمليات</h3><div class="gn">${NAVX().map(([g,t,i,c])=>`<button class="nav" data-go="${g}" style="--c:${c}"><span>${i}</span>${t}</button>`).join('')}</div>`;
+ const m=CALC(br,yr,mi),R=m.rev,P=x=>pct(x,R);
+ const T=(ic,n,v,c)=>`<div class="tl" style="--c:${c}"><div class="tt"><span class="ti">${ic}</span><span class="tn">${n}</span></div><div class="tv">${V(money(v))}</div><div class="tp">${VI(pct(v,R))}<span class="tx">من إجمالي الإيرادات</span></div><div class="bar"><i style="width:${R>0?Math.max(0,Math.min(100,v/R*100)).toFixed(1):0}%"></i></div></div>`;
+ const big=`<div class="bigt"><div class="bi">💰</div><div><small>إجمالي الإيرادات — ${AR[mi]} ${yr}</small><div class="bv">${V(money(R))}</div></div></div>`;
+ const tiles=`<div class="tg">${T('💵','إيرادات الكاش (الفعلي)',m.cash,'#0b7285')}${T('💳','إيرادات الشبكة (الموازنة)',m.net,'#1971c2')}${DL.map(([k,n,c])=>T('🚚',n,m.dl[k],c)).join('')}</div>`;
+ const cm=m.costT+m.opT+m.nf;
+ const costs=`<div class="pc"><div class="ph2"><span class="hi">🧮</span><div><small>تكاليف الشهر</small>${V(money(cm))}${VI(P(cm)+' من الإيرادات')}</div></div>${rl([['تكلفة المبيعات',m.costT,'#7048e8','🧾'],['المصروفات التشغيلية',m.opT,'#e8590c','🏢'],['المصروفات النثرية',m.nf,'#c2255c','🧩']],R)}</div>`;
+ const ni=`<div class="net" style="--c:${m.ni0<0?'#c92a2a':'#087f5b'};--c2:${m.ni0<0?'#e8590c':'#2f9e44'}"><div><small>📑 صافي الدخل</small>${V(money(m.ni0))}</div>${VI(P(m.ni0)+' من الإيرادات')}</div>`;
+ const D=yearSeries().filter(d=>d.rev>0),hi=D.length?D.reduce((b,d)=>d.rev>b.rev?d:b):null,lo=D.length?D.reduce((b,d)=>d.rev<b.rev?d:b):null;
+ const rank=`<div class="g2">${bx('أعلى شهر إيراداً — '+yr,hi?hi.n+' · '+money(hi.rev):'—',undefined,'#087f5b','🏆')}${bx('أقل شهر إيراداً — '+yr,lo&&D.length>1?lo.n+' · '+money(lo.rev):'—',undefined,'#c92a2a','📉')}</div>`;
+ const fdBox=`<div class="card fdb"><b>🧾 فروقات فواتير</b> <span class="tx">رقم يدوي يُرحَّل إلى المصروفات النثرية في قائمة الدخل</span>${br===ALL?`<div class="tv">${V(money(m.fd))}</div>`:`<div style="margin-top:8px">${IN('iv:op:fd',(mo(br,yr,mi).op||{}).fd)}</div>`}</div>`;
+ const hint=R>0?'':`<div class="card"><p class="hint">لا توجد إيرادات لهذا الشهر بعد. أدخلها من <b>تفاصيل المبيعات</b> ومن <b>قائمة الدخل</b> (أرصدة شركات التوصيل)${br===ALL?' بعد اختيار فرع':''}.</p></div>`;
+ return `<div class="xbar">${btn('xlAll','⬇ تصدير كل الأقسام Excel')}</div>`+big+tiles+hint+`<div class="hgrid">${costs}</div>${ni}${rank}${chartRev()}${chartCost()}`+fdBox;
 }
 function pgSales(){
  if(br===ALL)return ph('📋 جدول تفاصيل المبيعات')+needBr();
@@ -302,16 +302,14 @@ function pgSales(){
 }
 const KEYUI=()=>SBON?'':`<details class="fm" style="display:block"><summary style="cursor:pointer;font-weight:800">⚙ إعداد القراءة الآلية بمفتاح Claude API (لنسخة GitHub أو خارج Claude)</summary><p class="hint">داخل Claude لا تحتاج مفتاحاً. خارجه أدخل مفتاح API الخاص بك ليُستخدم للقراءة. يُحفظ المفتاح في هذا المتصفح فقط ويُرسل إلى Anthropic مباشرة، ويُحسب الاستخدام على حسابك. استخدمه على جهازك الشخصي فقط ولا تتركه على جهاز مشترك.</p><input type="password" data-b="key" placeholder="sk-ant-..." value="${esc(getKey())}" style="width:min(420px,100%);padding:7px 10px;border:2px solid var(--line);border-radius:10px"></details>`;
 const costForm=()=>`<div class="card wr"><h3>🧾 تسجيل فاتورة كتكلفة فقط (بدون بنود)</h3><p class="hint">للفواتير التي لا تريد تفصيل أصنافها: تُسجَّل بتاريخها ورقمها ومبلغها شامل الضريبة، وتُحتسب مباشرة ضمن تكلفة مبيعات القسم المختار في هذا الشهر، ولا تؤثر على كميات الجرد.</p><div class="fm"><label>القسم<select id="cf_t"><option value="bean">البن</option><option value="wh">أصناف المستودع</option><option value="kit">منتجات المطبخ</option></select></label><label>التاريخ<input id="cf_d" type="date" value="${today()}01"></label><label>رقم الفاتورة<input id="cf_n" type="text"></label><label>المورد<input id="cf_s" type="text"></label><label>المبلغ شامل الضريبة<input id="cf_a" type="number" step="any"></label><label>الضريبة<input id="cf_x" type="number" step="any"></label><label>المرفق (اختياري)<input id="cf_f" type="file" accept="application/pdf,image/*"></label>${btn('addCost','＋ تسجيل كتكلفة')}</div></div>`;
+const upCard=()=>RO?'':`<div class="card wr" style="border-top:6px solid #c2255c"><h3>📲 رفع فاتورة</h3><div class="fm"><label>تصنيف الفاتورة<select id="upc"><option value="auto">تلقائي (يقرؤها Claude من بنودها)</option><option value="food">غذائية</option><option value="petty">نثرية</option></select></label><label class="pick">📷 تصوير فاتورة<input type="file" accept="image/*" capture="environment" data-up hidden></label><label class="pick">⬆ اختيار ملف (صورة أو PDF)<input type="file" accept="application/pdf,image/*" data-up hidden></label></div><p class="hint">تُقرأ الفاتورة فور رفعها ويظهر سطرها مباشرة في هذه الصفحة وفي الرئيسية وقائمة الدخل. إن كان الملف يحوي عدة فواتير يُنشأ سطر لكل فاتورة. راجع الأرقام والتصنيف، ويمكنك تعديلهما من السطر.</p></div>`;
 const chk=v=>{if(!v.hi)return'';if(v.inc)return'⚠ قد تكون ممتدة على صفحات أخرى، راجع الإجمالي';const t=num(v.tot),x=num(v.tax);if(v.ai&&!t)return'⚠ لم يُقرأ الإجمالي';if(t>0&&x>0&&Math.abs(x-t*15/115)>Math.max(1,t*.01))return'⚠ راجع الضريبة (ليست 15%)';return v.ai?'✅ قُرئت من الملف':''};
-const accOf=k=>{const a=(S.dmap||{})[k]||{};return{c:(a.c||'').trim(),n:(a.n||'').trim()}};
-const accTxt=k=>{const a=accOf(k);return a.c||a.n?`🔗 ${esc(a.c)}${a.c&&a.n?' — ':''}${esc(a.n)}`:''};
-const accTag=k=>{const t=accTxt(k);return t?`<span class="acct">${t}</span>`:`<span class="acct no">⚠ غير محدد${!SBON||(ME&&ME.role==='admin')?` <button class="lnk" data-go="map">حدّده</button>`:''}</span>`};
 function pgExp(){
  if(br===ALL)return ph('🧾 المصروفات والفواتير')+needBr();
  const M=mo(br,yr,mi),m=calc1(br,yr,mi),sel=(i,f,a)=>`<select data-b="v:${i}:${f}">${a.map(([v,t,on])=>`<option value="${v}"${on?' selected':''}>${t}</option>`).join('')}</select>`;
- const rows=M.inv.map((v,i)=>`<tr><td>${IN(`v:${i}:d`,v.d,'date')}</td><td>${IN(`v:${i}:no`,v.no,'text')}</td><td>${IN(`v:${i}:sup`,v.sup,'text')}</td><td>${sel(i,'t',[['food','غذائية',v.t==='food'],['petty','نثرية',v.t==='petty']])}</td><td>${sel(i,'hi',[['1','بفاتورة',v.hi],['0','بدون فاتورة',!v.hi]])}</td><td>${accTag((v.t==='food'?'f':'p')+(v.hi?'i':'n'))}</td><td>${IN(`v:${i}:tot`,v.tot)}</td><td>${IN(`v:${i}:tax`,v.tax)}</td><td>${V(fmt(num(v.tot)-num(v.tax)))}</td><td>${v.hi?(v._busy?'⏳ جارٍ قراءة الفاتورة… <b class="prog"></b><br><small class="step"></small>':(v.f?`<button class="back" data-act="view:${i}">📎 ${esc(v.fn||'عرض')}</button> `:'')+`<label class="ck">⬆ ${v.f?'استبدال':'رفع'} الفاتورة<input type="file" accept="application/pdf,image/*" data-att="${i}" hidden></label> ${VS(esc(chk(v)))}${v._err?`<div class="alert">${esc(v._err)}</div>`:''}`):'—'}</td><td><button class="del" data-act="delInv:${i}">🗑</button></td></tr>`).join('');
- const h=TH('التاريخ')+TH('رقم الفاتورة')+TH('اسم المورد')+TH('النوع')+TH('الفاتورة')+TH('الحساب الآلي في دفترة')+TH('الإجمالي بالضريبة','a')+TH('الضريبة','d')+TH('المبلغ بدون الضريبة','b')+TH('المرفق (يُقرأ تلقائياً)')+TH('');
- return ph(`🧾 المصروفات والفواتير: ${AR[mi]} ${yr}`,btn('addInv','＋ إضافة فاتورة')+' '+btn('xlInv','⬇ Excel')+' ')+`<div class="g4">${[['غذائية بفاتورة','fi'],['غذائية بدون فاتورة','fn'],['نثرية بفاتورة','pi'],['نثرية بدون فاتورة','pn']].map(([n,k])=>bx(n,money(m.ex[k]),undefined,k[0]==='f'?'#2f9e44':'#e8590c','🧾').replace('</div>',`<div style="margin-top:4px">${accTag(k)}</div></div>`)).join('')}${bx('الإجمالي',money(m.exT),undefined,'#5f3dc4','💳')}</div><div class="card"><p class="hint">عند رفع فاتورة (PDF أو صورة) على سطر "بفاتورة" تُقرأ بواسطة Claude وتُعبّأ كل بيانات الفاتورة (التاريخ والرقم والمورد والإجمالي والضريبة). إذا احتوى الملف على أكثر من فاتورة يُنشأ سطر مستقل لكل فاتورة. راجع الأرقام قبل الاعتماد، وكلها قابلة للتعديل. <button class="back" data-act="diag">🔍 فحص القراءة الآلية</button></p>${KEYUI()}${TB(h,rows||'<tr><td colspan="10">لا توجد فواتير.</td></tr>')}</div>`;
+ const rows=M.inv.map((v,i)=>`<tr><td>${IN(`v:${i}:d`,v.d,'date')}</td><td>${IN(`v:${i}:no`,v.no,'text')}</td><td>${IN(`v:${i}:sup`,v.sup,'text')}</td><td>${sel(i,'t',[['food','غذائية',v.t==='food'],['petty','نثرية',v.t==='petty']])}</td><td>${sel(i,'hi',[['1','بفاتورة',v.hi],['0','بدون فاتورة',!v.hi]])}</td><td>${IN(`v:${i}:tot`,v.tot)}</td><td>${IN(`v:${i}:tax`,v.tax)}</td><td>${V(fmt(num(v.tot)-num(v.tax)))}</td><td>${v.hi?(v._busy?'⏳ جارٍ قراءة الفاتورة… <b class="prog"></b><br><small class="step"></small>':(v.f?`<button class="back" data-act="view:${i}">📎 ${esc(v.fn||'عرض')}</button> `:'')+`<label class="ck">⬆ ${v.f?'استبدال':'رفع'} الفاتورة<input type="file" accept="application/pdf,image/*" data-att="${i}" hidden></label> ${VS(esc(chk(v)))}${v.cl?VS(' 🏷 صُنّفت تلقائياً'):''}${v._err?`<div class="alert">${esc(v._err)}</div>`:''}`):'—'}</td><td><button class="del" data-act="delInv:${i}">🗑</button></td></tr>`).join('');
+ const h=TH('التاريخ')+TH('رقم الفاتورة')+TH('اسم المورد')+TH('النوع')+TH('الفاتورة')+TH('الإجمالي بالضريبة','a')+TH('الضريبة','d')+TH('المبلغ بدون الضريبة','b')+TH('المرفق (يُقرأ تلقائياً)')+TH('');
+ return ph(`🧾 المصروفات والفواتير: ${AR[mi]} ${yr}`,btn('addInv','＋ إضافة فاتورة')+' '+btn('xlInv','⬇ Excel')+' ')+`<div class="g4">${[['غذائية بفاتورة','fi'],['غذائية بدون فاتورة','fn'],['نثرية بفاتورة','pi'],['نثرية بدون فاتورة','pn']].map(([n,k])=>bx(n,money(m.ex[k]),undefined,k[0]==='f'?'#2f9e44':'#e8590c','🧾')).join('')}${bx('الإجمالي',money(m.exT),undefined,'#5f3dc4','💳')}</div>${upCard()}<div class="card"><p class="hint">عند رفع فاتورة (PDF أو صورة) على سطر "بفاتورة" تُقرأ بواسطة Claude وتُعبّأ كل بيانات الفاتورة (التاريخ والرقم والمورد والإجمالي والضريبة). إذا احتوى الملف على أكثر من فاتورة يُنشأ سطر مستقل لكل فاتورة. راجع الأرقام قبل الاعتماد، وكلها قابلة للتعديل. <button class="back" data-act="diag">🔍 فحص القراءة الآلية</button></p>${KEYUI()}${TB(h,rows||'<tr><td colspan="10">لا توجد فواتير.</td></tr>')}</div>`;
 }
 function itemForm(){return`<div class="fm wr"><input id="ni_n" type="text" placeholder="اسم الصنف"><select id="ni_u" title="الوحدة">${unitOpts(UNSEL||'كجم')}</select><input id="ni_u2" type="text" placeholder="وحدة جديدة" style="width:120px">${btn('addUnit','＋ وحدة')}<input id="ni_p" type="number" step="any" placeholder="السعر"><select id="ni_t"><option value="bean">بن</option><option value="wh">أصناف المستودع</option><option value="kit">منتجات المطبخ</option></select>${btn('addItem','＋ إضافة صنف')}</div>`}
 function draftUI(){
@@ -331,7 +329,7 @@ function pgBuy(){
  const M=mo(br,yr,mi),P=calc1(br,yr,mi).pur,tot=P.bean+P.kit+P.wh;
  const g=t=>{const a=IT(br).filter(i=>i.t===t);return`<tr class="gr"><td colspan="6">${TYP[t][1]} ${TYP[t][0]}: ${V(money(P[t]))}</td></tr>`+a.map(it=>{const s=srow(br,yr,mi,it);return`<tr><td><b>${esc(it.n)}</b><small>${esc(it.u)}</small></td><td>${IN(`i:${it.id}:p`,it.p)}</td><td>${V(money(s.P))}</td><td>${IN(`s:${it.id}:p`,s.pm||'')}</td><td>${V(fq(s.pq))}</td><td>${V(money(s.pv))}</td><td><button class="del" data-act="delItem:${it.id}">🗑</button></td></tr>`}).join('')};
  const inv=M.pur.map((v,i)=>`<div class="card"><div class="pt"><b>${TYP[v.t][1]} ${esc(v.sup||'—')} · ${esc(v.d)}${v.no?' · رقم '+esc(v.no):''} ${v.cost?'<span class="tag">تكلفة فقط</span>':''}</b><span>${money(v.total)} <small>(ضريبة ${money(v.tax)})</small> ${v.f?`<button class="back" data-act="viewP:${i}">📎</button>`:''} <button class="del" data-act="delPur:${i}">🗑</button></span></div>${v.cost?'':TB(TH('الصنف')+TH('الكمية','a')+TH('الوحدة')+TH('الإجمالي شامل الضريبة','b'),v.lines.map(l=>`<tr><td>${esc(l.n)}</td><td>${fq(l.q)}</td><td>${esc(l.u)}</td><td>${money(l.a)}</td></tr>`).join(''))}</div>`).join('');
- return ph(`📦 المخزون: ${AR[mi]} ${yr}`,V(money(tot),'pos')+' '+btn('xlBuy','⬇ Excel')+' ')+`<div class="card" style="padding:10px 16px"><b>الحساب الآلي في دفترة:</b> ${accTag('stock')}</div><div class="card wr"><h3>⬆ رفع فاتورة للمخزون</h3><div class="fm"><select id="pt"><option value="bean">فاتورة بن</option><option value="wh">فاتورة أصناف المستودع</option><option value="kit">فاتورة منتجات المطبخ</option></select><label class="pick">⬆ اختيار الفاتورة (PDF أو صورة)<input type="file" accept="application/pdf,image/*" data-pur hidden></label></div><p class="hint">تُقرأ كل الفواتير داخل الملف (حتى لو كان فيه أكثر من فاتورة)، وتظهر واحدة تلو الأخرى للمراجعة والاعتماد: البنود والكميات والتكلفة شاملة الضريبة. لا تُضاف الفاتورة إلا إذا ساوى مجموع بنودها مبلغ الفاتورة. <button class="back" data-act="diag">🔍 فحص القراءة الآلية</button></p>${KEYUI()}</div>${costForm()}${draft?draftUI():''}${inv?`<h3 style="color:#14121f;margin:6px 4px">🧾 فواتير المخزون المعتمدة</h3>${inv}`:''}<div class="card"><h3>📦 إجمالي مشتريات المخزون حسب الصنف</h3><p class="hint">القيمة = قيمة الفواتير + (الكمية اليدوية × سعر الشهر). سعر الشهر = متوسط تكلفة الوحدة شاملة الضريبة من الفواتير، وإلا آخر سعر فاتورة، وإلا السعر الأساسي.</p>${TB(TH('الصنف')+TH('السعر الأساسي')+TH('سعر الشهر','e')+TH('مشتريات يدوية (الكمية)','b')+TH('كمية الفواتير','b')+TH('القيمة','e')+TH(''),g('bean')+g('wh')+g('kit'))}${itemForm()}</div>`;
+ return ph(`📦 المخزون: ${AR[mi]} ${yr}`,V(money(tot),'pos')+' '+btn('xlBuy','⬇ Excel')+' ')+`<div class="card wr"><h3>⬆ رفع فاتورة للمخزون</h3><div class="fm"><select id="pt"><option value="bean">فاتورة بن</option><option value="wh">فاتورة أصناف المستودع</option><option value="kit">فاتورة منتجات المطبخ</option></select><label class="pick">⬆ اختيار الفاتورة (PDF أو صورة)<input type="file" accept="application/pdf,image/*" data-pur hidden></label></div><p class="hint">تُقرأ كل الفواتير داخل الملف (حتى لو كان فيه أكثر من فاتورة)، وتظهر واحدة تلو الأخرى للمراجعة والاعتماد: البنود والكميات والتكلفة شاملة الضريبة. لا تُضاف الفاتورة إلا إذا ساوى مجموع بنودها مبلغ الفاتورة. <button class="back" data-act="diag">🔍 فحص القراءة الآلية</button></p>${KEYUI()}</div>${costForm()}${draft?draftUI():''}${inv?`<h3 style="color:#14121f;margin:6px 4px">🧾 فواتير المخزون المعتمدة</h3>${inv}`:''}<div class="card"><h3>📦 إجمالي مشتريات المخزون حسب الصنف</h3><p class="hint">القيمة = قيمة الفواتير + (الكمية اليدوية × سعر الشهر). سعر الشهر = متوسط تكلفة الوحدة شاملة الضريبة من الفواتير، وإلا آخر سعر فاتورة، وإلا السعر الأساسي.</p>${TB(TH('الصنف')+TH('السعر الأساسي')+TH('سعر الشهر','e')+TH('مشتريات يدوية (الكمية)','b')+TH('كمية الفواتير','b')+TH('القيمة','e')+TH(''),g('bean')+g('wh')+g('kit'))}${itemForm()}</div>`;
 }
 function pgStk(){
  if(br===ALL)return ph('✅ الجرد')+needBr();
@@ -374,38 +372,63 @@ function anaSplit(){
   return`<div class="card" style="border-top:6px solid ${c}"><h3>${ic} مقارنة ${n}: ${AR[mi]} ${yr} مع الشهور المختارة</h3>${TB(TH('البند')+TH(AR[mi]+' '+yr+' (الحالي)','b')+sel.map(k=>TH(mAt(k).l,'a')).join(''),rowS+rowC+rowR)}<p class="hint">تحت كل شهر سابق: الزيادة أو النقص في الشهر الحالي مقارنة بذلك الشهر، بالمبلغ والنسبة. زيادة المبيعات باللون الأخضر وزيادة التكلفة بالأحمر.</p></div>`};
  return`<h3 style="color:#14121f;margin:6px 4px">☕🥐 تقسيم المبيعات والتكلفة: ${AR[mi]} ${yr}</h3>${warn}<div class="g2">${CATS.map(box).join('')}</div>${wh}<div class="card"><h3>📊 اختر الشهور السابقة للمقارنة</h3>${picks}</div>${sel.length?CATS.map(tbl).join(''):'<div class="card"><p class="hint">اختر شهراً سابقاً واحداً على الأقل.</p></div>'}`;
 }
-function pgAna(){
- if(!ana){ana=[];for(let i=0;i<12;i++)if(CALC(br,yr,i).rev>0)ana.push(i)}
- const sel=[...ana].sort((a,b)=>a-b),C=sel.map(i=>CALC(br,yr,i));
- const rows=AI.map(([n,f,c])=>`<tr><td><b>${n}</b></td>${C.map((m,j)=>{const v=f(m),pv=j?f(C[j-1]):null,d=pv?(v-pv)/Math.abs(pv)*100:null;return`<td>${V(money(v))}<small>${V(pct(v,m.rev)+(d===null?'':` · ${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)}%`))}</small>${BAR(m.rev?v/m.rev*100:0,c)}</td>`}).join('')}</tr>`).join('');
- return ph('📈 التحليل ومقارنة الشهور',btn('xlAna','⬇ Excel')+' ')+`<div class="card"><p class="hint">اختر الشهور للمقارنة. تحت كل رقم نسبته إلى إجمالي إيرادات نفس الشهر، ثم نسبة التغير عن الشهر المحدد قبله.</p><div class="fm">${AR.map((n,i)=>`<label class="ck"><input type="checkbox" data-ck="${i}"${ana.includes(i)?' checked':''}>${n}</label>`).join('')}</div>${sel.length?TB(TH('البند')+sel.map(i=>TH(AR[i],'a')).join(''),rows):'<p class="hint">اختر شهراً واحداً على الأقل.</p>'}</div>${anaSplit()}`;
+function incOf(m,M,det){
+ const L=[],h=t=>L.push({k:'h',t}),r=(t,a,inp)=>L.push({k:'r',t,a,inp}),T=(t,a)=>L.push({k:'t',t,a});
+ const xs=(k)=>(det&&M)?(M.xo||[]).map((x,i)=>({x,i})).filter(o=>o.x.k===k):[];
+ h('الإيرادات');r('إيرادات الكاش (الفعلي)',m.cash);r('إيرادات الشبكة (الموازنة)',m.net);
+ DL.forEach(([k,n])=>r('رصيد '+n+' (إدخال شهري)',m.dl[k],'dlb:'+k));
+ if(det&&M){xs('i').forEach(o=>L.push({k:'c',t:o.x.n||'',a:num(o.x.a),i:o.i,x:o.x}));L.push({k:'add',t:'i'})}else r('إيرادات أخرى',m.xi||0);
+ T('إجمالي الإيرادات',m.rev);
+ h('تكلفة المبيعات');r('تكلفة المبيعات (إدخال شهري)',m.costT,'op:cos');T('مجمل الربح',m.rev-m.costT);
+ h('المصروفات التشغيلية');r('الرواتب',m.opSal,'op:sal');r('الإيجارات',m.opRent,'op:rent');r('المرافق',m.opUtil,'op:util');DL.forEach(([k,n])=>r('مصروفات '+n,m.dx[k],'dx:'+k));
+ if(det&&M){xs('e').forEach(o=>L.push({k:'c',t:o.x.n||'',a:num(o.x.a),i:o.i,x:o.x}));L.push({k:'add',t:'e'})}else r('مصروفات تشغيلية أخرى',m.xe||0);
+ T('إجمالي المصروفات التشغيلية',m.opT);
+ h('المصروفات النثرية');r('مصروفات نثرية',m.nf);
+ T('إجمالي المصروفات',m.expAll);T('صافي الدخل',m.ni0);
+ return L;
 }
-function incList(){
- const m=CALC(br,yr,mi),M=br===ALL?null:mo(br,yr,mi),L=[],h=t=>L.push({k:'h',t}),r=(t,a)=>L.push({k:'r',t,a}),T=(t,a)=>L.push({k:'t',t,a});
- h('الإيرادات');r('إيرادات الكاش',m.cash);r('إيرادات الشبكة',m.net);DL.forEach(([k,n])=>r('إيرادات '+n,m.dl[k]));T('إجمالي الإيراد',m.rev);
- h('تكلفة المبيعات');['bean','kit','wh'].forEach(t=>r('تكلفة '+TYP[t][0],m.cost[t]));T('إجمالي تكلفة المبيعات',m.costT);
- h('المصروفات التشغيلية');(M?M.ops.map(x=>[x.n,num(x.a)]):[['المصروفات التشغيلية',m.ops]]).forEach(([n,a])=>r(n,a));T('إجمالي المصروفات التشغيلية',m.ops);
- h('الرواتب');(M?M.sal.map(x=>[x.n,num(x.a)]):[['الرواتب',m.sal]]).forEach(([n,a])=>r(n,a));T('إجمالي الرواتب',m.sal);
- const xi=M?M.xo.filter(x=>x.k==='i'):[],xe=M?M.xo.filter(x=>x.k!=='i'):[];
- if(M?xe.length:m.oe){h('مصروفات أخرى');(M?xe.map(x=>[x.n||'بند بدون اسم',num(x.a)]):[['مصروفات أخرى',m.oe]]).forEach(([n,a])=>r(n,a));T('إجمالي المصروفات الأخرى',m.oe)}
- if(M?xi.length:m.oi){h('إيرادات أخرى');(M?xi.map(x=>[x.n||'بند بدون اسم',num(x.a)]):[['إيرادات أخرى',m.oi]]).forEach(([n,a])=>r(n,a));T('إجمالي الإيرادات الأخرى',m.oi)}
- T('إجمالي المصروفات (بدون الإهلاك والإطفاء)',m.expAll);r('مصروفات الإهلاك والإطفاء',m.dep);
- T('صافي الدخل (بدون الإهلاك والإطفاء)',m.ni0);T('صافي الدخل (مع الإهلاك والإطفاء)',m.ni);
- return{L,R:m.rev};
-}
+function incList(det){const m=CALC(br,yr,mi),M=br===ALL?null:mo(br,yr,mi);return{L:incOf(m,M,det),R:m.rev}}
 function pgInc(){
- const{L,R}=incList(),M=br===ALL?null:mo(br,yr,mi),rows=L.map(x=>x.k==='h'?`<tr class="gr"><td colspan="3">${x.t}</td></tr>`:`<tr${x.k==='t'?' class="gr"':''}><td>${x.k==='r'?VS(esc(x.t)):x.t}</td><td>${V(money(x.a))}</td><td>${V(pct(x.a,R))}</td></tr>`).join('');
- const sel=(i,k)=>`<select data-b="z:${i}:k"><option value="e"${k!=='i'?' selected':''}>مصروف</option><option value="i"${k==='i'?' selected':''}>إيراد</option></select>`;
- const ext=M?`<div class="card"><h3>➕ بنود إضافية في قائمة الدخل ${btn('addz:e','＋ مصروف')} ${btn('addz:i','＋ إيراد')}</h3><p class="hint">أضف أي بند غير موجود في القائمة (مثل رسوم بنكية، صيانة طارئة، إيراد آخر…). المصروف يُخصم من صافي الدخل والإيراد يُضاف إليه، ويظهر البند في قائمة الدخل وفي الرئيسية والتحليل وملف Excel.</p>${TB(TH('البند')+TH('النوع')+TH('المبلغ','b')+TH(''),M.xo.map((x,i)=>`<tr><td>${IN(`z:${i}:n`,x.n,'text')}</td><td>${sel(i,x.k)}</td><td>${IN(`z:${i}:a`,x.a)}</td><td><button class="del" data-act="delz:${i}">🗑</button></td></tr>`).join('')||'<tr><td colspan="4">لا توجد بنود إضافية.</td></tr>')}</div>`:`<div class="card"><p class="hint">لإضافة بنود إضافية اختر فرعاً واحداً. هنا تظهر مجاميعها لكل الفروع.</p></div>`;
- return ph(`📑 قائمة الدخل: ${AR[mi]} ${yr}`,btn('xlInc','⬇ Excel')+' ')+`<div class="card">${TB(TH('البند')+TH('المبلغ','b')+TH('النسبة إلى إجمالي الإيراد','a'),rows)}</div>${ext}`;
+ const{L,R}=incList(true),M=br===ALL?null:mo(br,yr,mi),m=CALC(br,yr,mi);
+ const rows=L.map(x=>{
+  if(x.k==='h')return`<tr class="gr"><td colspan="3">${x.t}</td></tr>`;
+  if(x.k==='add')return M&&!RO?`<tr><td colspan="3"><button class="pick" data-act="addZ:${x.t}">＋ إضافة بند ${x.t==='i'?'إيراد':'مصروف'}</button></td></tr>`:'';
+  if(x.k==='c')return`<tr><td>${IN('z:'+x.i+':n',x.x.n,'text')}</td><td><span class="ie">${IN('z:'+x.i+':a',x.x.a)} <b>${S.cur}</b> <button class="del" data-act="delZ:${x.i}">🗑</button></span></td><td>${V(pct(x.a,R))}</td></tr>`;
+  let cell=V(money(x.a));
+  if(x.inp&&M){const[g,f]=x.inp.split(':'),raw=M[g]&&M[g][f];cell=`<span class="ie">${IN('iv:'+x.inp,has(raw)?raw:'')} <b>${S.cur}</b></span>`}
+  return`<tr${x.k==='t'?' class="gr"':''}><td>${x.t}</td><td>${cell}</td><td>${V(pct(x.a,R))}</td></tr>`}).join('');
+ const fi=m.ex.fi+m.ex.fn;
+ return ph(`📑 قائمة الدخل: ${AR[mi]} ${yr}`,btn('xlInc','⬇ Excel')+' ')+`<div class="card"><p class="hint">${M?'إيرادات الكاش والشبكة تُحسب من صفحة تفاصيل المبيعات، والمصروفات النثرية من صفحة المصروفات والفواتير. أما تكلفة المبيعات وأرصدة شركات التوصيل والرواتب والإيجارات والمرافق ومصروفات التوصيل فتُدخل يدوياً هنا مرة واحدة في الشهر، ويمكنك إضافة أي بند إيراد أو مصروف وتعديل اسمه ومبلغه.':'عرض مجمّع لكل الفروع. اختر فرعاً لإدخال أو تعديل الخانات اليدوية.'}</p>${M?`<p class="hint">للمرجعية: إجمالي المصروفات الغذائية المسجلة بالفواتير هذا الشهر <b>${V(money(fi))}</b> (لا تدخل في تكلفة المبيعات تلقائياً).</p>`:''}${TB(TH('البند')+TH('المبلغ','b')+TH('النسبة إلى إجمالي الإيرادات','a'),rows)}</div>${chartRev()}${chartCost()}`;
 }
-const PAGES={map:pgMap,users:pgUsers,log:pgLog,home:pgHome,sales:pgSales,exp:pgExp,buy:pgBuy,stk:pgStk,man:pgMan,cash:pgCash,ana:pgAna,inc:pgInc};
+function pgAna(){
+ if(!ana){ana=[];for(let i=0;i<12;i++)if(CALC(br,yr,i).rev>0||CALC(br,yr,i).expAll>0)ana.push(i)}
+ const sel=[...ana].sort((a,b)=>a-b),C=sel.map(i=>CALC(br,yr,i)),LS=C.map(incOf),n=LS.length;
+ const arrow=d=>d===null?'':` · <bdi dir="ltr" class="${d>=0?'up':'dn'}">${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)}%</bdi>`;
+ const rows=n?LS[0].map((x,ri)=>{
+  if(x.k==='h')return`<tr class="gr"><td colspan="${n+1+(n>1?2:0)}">${x.t}</td></tr>`;
+  const cells=LS.map((L,j)=>{const v=L[ri].a,pv=j?LS[j-1][ri].a:null,d=pv?(v-pv)/Math.abs(pv)*100:null;return`<td>${V(money(v))}<small>${V(pct(v,C[j].rev)+arrow(d))}</small></td>`}).join('');
+  let tail='';if(n>1){const f=LS[0][ri].a,l=LS[n-1][ri].a,dd=l-f,dp=f?dd/Math.abs(f)*100:null;tail=`<td>${V(money(dd))}</td><td>${dp===null?'—':`<bdi dir="ltr" class="${dp>=0?'up':'dn'}">${dp>=0?'▲':'▼'} ${Math.abs(dp).toFixed(1)}%</bdi>`}</td>`}
+  return`<tr${x.k==='t'?' class="gr"':''}><td>${x.t}</td>${cells}${tail}</tr>`}).join(''):'';
+ const head=TH('البند')+sel.map(i=>TH(AR[i],'a')).join('')+(n>1?TH(`الفرق (${AR[sel[n-1]]} − ${AR[sel[0]]})`,'b')+TH('نسبة الفرق','b'):'');
+ return ph('📈 تحليل قائمة الدخل',btn('xlAna','⬇ Excel')+' ')+`<div class="card"><p class="hint">اختر الشهور للمقارنة. تحت كل رقم نسبته إلى إيرادات نفس الشهر ثم نسبة التغير عن الشهر المحدد قبله. آخر عمودين: الفرق بين آخر شهر وأول شهر محددين.</p><div class="fm">${AR.map((nm,i)=>`<label class="ck"><input type="checkbox" data-ck="${i}"${ana.includes(i)?' checked':''}>${nm}</label>`).join('')}</div>${n?TB(head,rows):'<p class="hint">اختر شهراً واحداً على الأقل.</p>'}</div>`;
+}
+function pgSalesL(){
+ if(br===ALL)return ph('📋 تفاصيل المبيعات')+needBr();
+ const M=mo(br,yr,mi),sm=k=>M.days.reduce((a,d)=>a+num(d[k]),0),f=x=>V(fmt(x),x<0?'neg':'');
+ let T1=0,T2=0;
+ const rows=M.days.map((d,i)=>{const d1=num(d.net)-num(d.bud),d2=num(d.cash)-num(d.act);T1+=d1;T2+=d2;
+  return`<tr><td>${IN(`d:${i}:d`,d.d,'date')}</td>${['net','bud','cash','act'].map(k=>`<td>${IN(`d:${i}:${k}`,d[k])}</td>`).join('')}<td>${f(d1)}</td><td>${f(d2)}</td><td>${f(d1+d2)}</td><td><button class="del" data-act="delDay:${i}">🗑</button></td></tr>`}).join('');
+ const h=TH('التاريخ')+TH('الشبكة بالنظام','a')+TH('الموازنة','c')+TH('الكاش بالنظام','a')+TH('الكاش الفعلي','c')+TH('فرق الشبكة والموازنة','d')+TH('فرق الكاش بالنظام والفعلي','d')+TH('نتيجة الفرق','e')+TH('');
+ const foot=`<tfoot><tr><td>الإجمالي</td>${['net','bud','cash','act'].map(k=>`<td>${V(fmt(sm(k)))}</td>`).join('')}<td>${f(T1)}</td><td>${f(T2)}</td><td>${f(T1+T2)}</td><td></td></tr></tfoot>`;
+ return ph(`📋 تفاصيل المبيعات: ${AR[mi]} ${yr}`,btn('addDay','＋ إضافة يوم')+' '+btn('xlSales','⬇ Excel')+' ')+`<div class="card"><p class="hint">فرق الشبكة = الشبكة بالنظام − الموازنة. فرق الكاش = الكاش بالنظام − الكاش الفعلي (الموجب يعني نقصاً في الفعلي). نتيجة الفرق = مجموع الفرقين. إيرادات الشبكة في الرئيسية وقائمة الدخل = إجمالي الموازنة، وإيرادات الكاش = إجمالي الكاش الفعلي. أرصدة شركات التوصيل تُدخل مرة واحدة شهرياً من قائمة الدخل.</p>${TB(h,rows||'<tr><td colspan="9">لا توجد أيام. أضف يوماً.</td></tr>',foot)}</div>`;
+}
+const PAGES={users:pgUsers,log:pgLog,home:pgHome,sales:pgSalesL,exp:pgExp,ana:pgAna,inc:pgInc};
 function build(){
  if(SBON){if(RECOV)return recUI();if(loading)return`<div class="card"><p>⏳ جارٍ التحميل…</p></div>`;if(!ME)return loginUI();if(!ME.role)return pendingUI();if(!S.branches.length)return`<div class="card"><p>لا توجد فروع مرتبطة بحسابك. تواصل مع المدير.</p>${HDR()}</div>`}
  const rv=i=>CALC(br,yr,i).rev;
  return`<header class="top"><input class="co" data-b="co" value="${esc(S.company)}" aria-label="اسم الشركة"${SBON&&ME.role!=='admin'?' readonly':''}><div class="tools"><button class="btn${pg==='home'?' on':''}" data-go="home">🏠 الرئيسية</button><select class="btn" data-b="yr" aria-label="السنة">${[2025,2026,2027,2028].map(y=>`<option value="${y}"${y===yr?' selected':''}>${y}</option>`).join('')}</select>${HDR()}</div></header>
  <nav class="tabs">${S.branches.map((b,i)=>`<button class="tab${b===br?' on':''}" style="--c:${BCOL[i%6]}" data-br="${esc(b)}">${esc(b)}</button>`).join('')}${TABX()}</nav>
- <div class="lay"><aside class="side"><h3>📅 الشهور</h3>${AR.map((n,i)=>`<button class="mb${i===mi?' on':''}" style="--h:${i*30}" data-mo="${i}"><span>${n}</span><small>${V(rv(i)>0?kf(rv(i)):'—')}</small></button>`).join('')}</aside><main>${PAGES[pg]()}<p class="note">${esc(msg)||(SBON?'البيانات محفوظة على الخادم (Supabase). الإصدار: 23-11-2026 ✔ رسوم بيانية · وحدات · تصدير Excel · استرجاع كلمة المرور':'البيانات تُحفظ في هذا المتصفح فقط. الأرقام الحالية تجريبية.')}</p>${diagTxt?`<pre class="alert" style="white-space:pre-wrap">${esc(diagTxt)}</pre>`:''}</main></div>`;
+ <div class="lay"><aside class="side"><h3>📂 القوائم</h3><div class="sg">${[['home','الرئيسية','🏠','#5f3dc4'],...NAVX()].map(([g,t,ic,c])=>`<button class="sn${pg===g?' on':''}" style="--c:${c}" data-go="${g}"><span>${ic}</span>${t}</button>`).join('')}</div><h3>📅 الشهور</h3><div class="sg sm">${AR.map((n,i)=>`<button class="mb${i===mi?' on':''}" style="--h:${i*30}" data-mo="${i}"><span>${n}</span><small>${V(rv(i)>0?kf(rv(i)):'—')}</small></button>`).join('')}</div></aside><main>${PAGES[pg]()}<p class="note">${esc(msg)||(SBON?'البيانات محفوظة على السيرفر وتظهر لكل مستخدم حسب صلاحيته.':'البيانات تُحفظ في هذا المتصفح فقط.')}</p>${diagTxt?`<pre class="alert" style="white-space:pre-wrap">${esc(diagTxt)}</pre>`:''}</main></div>`;
 }
 const app=$('#root');
 let dq=[],draft=null;
@@ -435,7 +458,7 @@ async function filePages(file){
 const RULES=`أعد كائن JSON صالحاً واحداً فقط بلا أي شرح أو علامات markdown. حوّل كل الأرقام (حتى الهندية ٠١٢٣) إلى أرقام غربية. لا تخمّن: إن لم يظهر رقم ضع null. التاريخ بصيغة YYYY-MM-DD.`;
 const MULTI=`مهم: قد يحتوي الملف على عدة فواتير منفصلة (حتى في صفحة واحدة، أو فواتير متتالية من نفس المورد). أعد عنصراً مستقلاً لكل فاتورة بحسب رقمها، ولا تدمج فاتورتين، ولا تكتفِ بالأولى، ولا تكرر الفاتورة نفسها. الفاتورة الممتدة على عدة صفحات عنصر واحد. ضع "complete":false إن لم تظهر بداية الفاتورة أو إجمالياتها النهائية ضمن الصفحات المرسلة، وإلا true.`;
 const PROMPT={
- exp:`أنت تقرأ فواتير مصروفات (عربية أو إنجليزية، ضريبة القيمة المضافة غالباً 15%).\n${MULTI}\nالشكل المطلوب (القيم للتوضيح فقط):\n{"invoices":[{"date":"2026-10-12","invoice_no":"INV-1001","supplier":"اسم البائع","total_incl_tax":1150.00,"total_tax":150.00,"total_excl_tax":1000.00,"complete":true}]}\nحيث total_incl_tax هو الإجمالي النهائي المستحق شاملاً الضريبة.\n${RULES}`,
+ exp:`أنت تقرأ فواتير مصروفات (عربية أو إنجليزية، ضريبة القيمة المضافة غالباً 15%).\n${MULTI}\nالشكل المطلوب (القيم للتوضيح فقط):\n{"invoices":[{"date":"2026-10-12","invoice_no":"INV-1001","supplier":"اسم البائع","total_incl_tax":1150.00,"total_tax":150.00,"total_excl_tax":1000.00,"category":"food","complete":true}]}\nحيث total_incl_tax هو الإجمالي النهائي المستحق شاملاً الضريبة.\nوحيث category تصنيف الفاتورة من بنودها الداخلية: "food" إن كانت بنودها مواد غذائية أو مشروبات أو خامات تُستعمل في تحضير الأطعمة والمشروبات (بن، حليب، خضار، لحوم، مخبوزات، عصائر، سكر، إلخ)، و"petty" لأي شيء آخر (صيانة، مطبوعات، تنظيف، أدوات، أكواب وتغليف، مواصلات، خدمات، إلخ). إن اختلطت البنود فاختر الغالب من حيث القيمة.\n${RULES}`,
  pur:`أنت تقرأ فواتير مشتريات لكافيه (عربية أو إنجليزية، ضريبة القيمة المضافة غالباً 15%). استخرج كل بنود كل فاتورة كما هي دون دمج أو إضافة، وتجاهل صفوف المجاميع والخصم العام.\n${MULTI}\nالشكل المطلوب (القيم للتوضيح فقط):\n{"invoices":[{"date":"2026-10-12","invoice_no":"INV-1001","supplier":"اسم المورد","total_incl_tax":3220.00,"total_tax":420.00,"total_excl_tax":2800.00,"complete":true,"lines":[{"name":"بن برازيلي","qty":10,"unit":"كجم","net":1800.00,"tax":null,"total":null}]}]}\nحيث net مبلغ البند قبل الضريبة، وtax ضريبة البند إن ظهرت، وtotal إجمالي البند شاملاً الضريبة إن ظهر، وإلا null.\n${RULES}`
 };
 let diagTxt='';
@@ -595,6 +618,8 @@ async function act(s){
   advance();msg='تم تسجيل الفاتورة كتكلفة وأُضيفت إلى تكلفة مبيعات القسم.'+(draft?` تبقّى ${dq.length+1} فاتورة للمراجعة.`:'');
  }
  else if(a==='delPur')M.pur.splice(+x,1);
+ else if(a==='addZ'){M.xo=M.xo||[];M.xo.push({k:x==='i'?'i':'e',n:'',a:0})}
+ else if(a==='delZ'){M.xo.splice(+x,1)}
  else if(a==='xlSales')return xl('المبيعات',rSales(M));
  else if(a==='xlInv')return xl('الفواتير',rInv(M));
  else if(a==='xlStk')return xl('الجرد',rStk());
@@ -602,7 +627,7 @@ async function act(s){
  else if(a==='xlBuy')return xlm('المخزون',[['أصناف المخزون',rBuyI()],['فواتير المشتريات',rBuyP(M)]]);
  else if(a==='xlMan')return xl('الهالك والرواتب',rMan(M));
  else if(a==='xlCash')return xl('عهدة الكاش',rCash());
- else if(a==='xlAna')return xlm('التحليل',[['مقارنة الشهور',rAnaI()],['المبيعات والتكلفة',rAnaS()]]);
+ else if(a==='xlAna')return xlm('التحليل',[['مقارنة الشهور',rAnaI()]]);
  else if(a==='xlAll')return xlAll(M);
  save();render();
 }
@@ -628,6 +653,7 @@ app.addEventListener('input',e=>{
  else if(k==='v'){const v=M.inv[+a];v[f]=f==='hi'?i.value==='1':(f==='d'||f==='sup'||f==='t'||f==='no')?i.value:num(i.value);if(f==='tot'||f==='tax')v.ai=v.ai}
  else if(k==='sk')M.sk=i.value===''?'':+i.value;
  else if(k==='sb')M.sb=i.value===''?'':+i.value;
+ else if(k==='iv'){const o=M[a]=M[a]||{};o[f]=i.value===''?'':+i.value}
  else if(k==='z'){const x=M.xo[+a];if(x)x[f]=f==='a'?num(i.value):i.value}
  else if(k==='o'||k==='l'){const x=(k==='o'?M.ops:M.sal)[+a];x[f]=f==='n'?i.value:num(i.value)}
  else if(p==='dep')M.dep=num(i.value);
@@ -657,8 +683,8 @@ app.addEventListener('change',async e=>{
   }catch(err){stopProg();if(draft!==d0)return;Object.assign(d0,{st:'ready',d:today()+'01',lines:[{n:'',q:1,u:'',a:0}],err:errMsg(err)+' يمكنك إدخال البنود يدوياً.'})}
   render();return;
  }
- if(i.dataset.att!==undefined){
-  const f=i.files[0];i.value='';if(!f||!M)return;const v=M.inv[+i.dataset.att];if(!v)return;
+ if(i.dataset.att!==undefined||i.dataset.up!==undefined){
+  const f=i.files[0];i.value='';if(!f||!M)return;let v,auto=false;if(i.dataset.up!==undefined){const c=($('#upc')||{}).value||'auto';auto=c==='auto';v={d:today()+'01',no:'',sup:'',t:auto?'food':c,hi:true,tot:0,tax:0};M.inv.push(v)}else v=M.inv[+i.dataset.att];if(!v)return;
   v._busy=true;v._err='';msg='';diagTxt='';render();startProg();
   const src={f,id:null};let res=null;
   try{res=await aiRead(f,'exp');stopProg()}catch(err){stopProg();v._err=errMsg(err)+' أدخل البيانات يدوياً.'}
@@ -666,7 +692,7 @@ app.addEventListener('change',async e=>{
   if(res){
    if(!res.list.length)v._err='لم يُعثر على فاتورة في الملف. أدخل البيانات يدوياً.';
    else{
-    const hs=res.list.map(head),fill=(o,r,raw)=>{if(r.d)o.d=r.d;if(r.no)o.no=r.no;if(r.sup)o.sup=r.sup;if(r.total)o.tot=r.total;o.tax=r.tax;o.ai=true;o.inc=raw.complete===false};
+    const hs=res.list.map(head),fill=(o,r,raw)=>{if(r.d)o.d=r.d;if(r.no)o.no=r.no;if(r.sup)o.sup=r.sup;if(r.total)o.tot=r.total;o.tax=r.tax;o.ai=true;o.inc=raw.complete===false;if(auto){o.t=raw.category==='petty'?'petty':'food';o.cl=1}};
     fill(v,hs[0],res.list[0]);
     const at=M.inv.indexOf(v)+1,extra=hs.slice(1).map((r,k)=>{const o={d:today()+'01',no:'',sup:'',t:v.t,hi:true,tot:0,tax:0,f:fid,fn:f.name};fill(o,r,res.list[k+1]);return o});
     M.inv.splice(at,0,...extra);
@@ -811,20 +837,13 @@ function TABX(){
  const addB=(!SBON||ME.role==='admin')?(showAdd?`<input class="nb" id="nb" placeholder="اسم الفرع الجديد"><button class="pick" data-act="okBr">حفظ</button>`:`<button class="tab add" data-act="showAdd">＋ إضافة فرع</button>`):'';
  return allB+addB;
 }
-const NAVX=()=>{const m=['map','ربط دفترة','🔗','#0b7285'];if(!SBON||!ME)return[...NAV,m];if(ME.role==='admin')return[...NAV,m,['users','المستخدمون والصلاحيات','👤','#364fc7'],['log','سجل العمليات','🕵️','#495057']];if(ME.role==='owner')return[...NAV,m];return NAV};
+const NAVX=()=>{if(!SBON||!ME)return NAV;if(ME.role==='admin')return[...NAV,['users','المستخدمون والصلاحيات','👤','#364fc7'],['log','سجل العمليات','🕵️','#495057']];return NAV};
 const loginUI=()=>`<div class="card" style="max-width:420px;margin:60px auto"><h2 style="text-align:center">🔐 تسجيل الدخول</h2><div class="fm" style="flex-direction:column;align-items:stretch"><label>البريد الإلكتروني<input id="lg_e" type="email" autocomplete="username" style="width:100%"></label><label>كلمة المرور<input id="lg_p" type="password" autocomplete="current-password" style="width:100%"></label>${authErr?`<div class="alert">${esc(authErr)}</div>`:''}${authOk?`<div class="alert" style="background:#d3f9d8;color:#087f5b">${esc(authOk)}</div>`:''}<button class="pick" data-act="login">دخول</button><button class="back" data-act="forgot">نسيت كلمة المرور؟ (اكتب بريدك أعلاه ثم اضغط)</button></div></div>`;
 const recUI=()=>`<div class="card" style="max-width:420px;margin:60px auto"><h2 style="text-align:center">🔑 كلمة مرور جديدة</h2><div class="fm" style="flex-direction:column;align-items:stretch"><label>كلمة المرور الجديدة (8 أحرف على الأقل)<input id="rc_p" type="password" autocomplete="new-password" style="width:100%"></label><label>أعد كتابتها<input id="rc_p2" type="password" autocomplete="new-password" style="width:100%"></label>${authErr?`<div class="alert">${esc(authErr)}</div>`:''}<button class="pick" data-act="setNewPw">حفظ ودخول</button></div></div>`;
 const pendingUI=()=>`<div class="card" style="max-width:480px;margin:60px auto;text-align:center"><h2>⏳ حسابك قيد الاعتماد</h2><p class="hint">سجّلت الدخول بـ ${esc(ME.email)} لكن لم تُحدَّد صلاحياتك بعد. تواصل مع المدير.</p><button class="back" data-act="logout">خروج</button></div>`;
 
 /* ---------- المستخدمون (للمدير) ---------- */
 async function loadUsers(){try{USERS=await DB.listUsers()}catch(e){msg='تعذّر تحميل المستخدمين: '+((e&&e.message)||'')}render()}
-const DMAP=[['stock','📦 حساب المخزون (المشتريات والجرد)'],['fi','🧾 المصروفات الغذائية — بفاتورة'],['fn','🧾 المصروفات الغذائية — بدون فاتورة'],['pi','🛒 النثرية — بفاتورة'],['pn','🛒 النثرية — بدون فاتورة']];
-function pgMap(){
- if(SBON&&ME&&ME.role==='manager')return ph('🔗 ربط دفترة')+`<div class="card"><p class="hint">هذه الصفحة للمدير والمالك فقط.</p></div>`;
- const D=S.dmap||{},done=DMAP.filter(([k])=>D[k]&&(D[k].c||'').trim()).length;
- const rows=DMAP.map(([k,n])=>`<tr><td style="text-align:start;font-weight:700">${n}</td><td>${IN(`dm:${k}:c`,(D[k]||{}).c||'','text')}</td><td>${IN(`dm:${k}:n`,(D[k]||{}).n||'','text')}</td></tr>`).join('');
- return ph('🔗 ربط دفترة (الحسابات الآلية)',btn('xlMap','⬇ Excel')+' ')+`<div class="card"><p class="hint">اكتب لكل بند الحساب في شجرة حسابات دفترة الذي تُرحَّل عليه القيود تلقائياً عند طلب الترحيل. رقم الحساب كما يظهر في دفترة، والاسم للتوضيح. لا يُكتب أي مفتاح أو كلمة مرور هنا. المكتمل: <b>${done}</b> من ${DMAP.length}.</p>${TB(TH('البند')+TH('رقم الحساب في دفترة')+TH('اسم الحساب'),rows)}</div>`;
-}
 function pgUsers(){
  if(!ME||ME.role!=='admin')return ph('👤 المستخدمون')+`<div class="card"><p class="hint">هذه الصفحة للمدير فقط.</p></div>`;
  const bro=S.branches.map(b=>[BID[b],b]),rn=Object.entries(ROLEN);

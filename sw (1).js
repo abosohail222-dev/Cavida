@@ -1,5 +1,5 @@
 // Service worker بسيط: يحاول الشبكة أولاً ويرجع للنسخة المخزنة عند انقطاع الإنترنت
-const V = 'cavida-1';
+const V = 'kafid-lite-cav1';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -7,7 +7,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== V).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k.startsWith('kafid-lite-') && k !== V).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
