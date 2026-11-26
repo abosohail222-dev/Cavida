@@ -122,6 +122,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .bigt{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:24px;padding:22px 26px;margin-bottom:14px;box-shadow:0 10px 28px rgba(8,127,91,.3)}.bi{font-size:3.4rem;background:rgba(255,255,255,.2);border-radius:20px;padding:6px 18px}.bigt small{display:block;font-weight:700;opacity:.95;font-size:1.05rem}.bv b{font-size:3rem;font-weight:800}.tg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:6px}.tl{background:var(--surface);border-radius:20px;padding:16px 18px;border-top:7px solid var(--c);box-shadow:0 6px 20px rgba(40,30,90,.12)}.tt{display:flex;align-items:center;gap:8px;font-weight:700}.ti{font-size:1.7rem;background:var(--surface2);border-radius:12px;padding:2px 9px}.tv{margin:10px 0 4px}.tv b{font-size:1.7rem;font-weight:800;color:var(--c)}.tp{display:flex;align-items:center;gap:8px}.tp em{font-style:normal;background:var(--c);color:#fff;border-radius:999px;padding:1px 12px;font-weight:800}.tx{color:var(--muted);font-size:.8rem}.tl .bar{margin-top:10px}.ie{display:inline-flex;align-items:center;gap:6px}.ie input{width:130px}.up{color:#087f5b;font-weight:700}.dn{color:#c92a2a;font-weight:700}
 .tg{gap:9px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.tl{padding:7px 10px;border-radius:15px;border-top-width:5px}.ti{font-size:1rem;padding:1px 6px;border-radius:9px}.tt{font-size:.82rem;gap:6px}.tv{margin:5px 0 2px}.tv b{font-size:1.1rem}.tp{font-size:.8rem}.tl .bar{height:4px}
 details.addm{position:relative;display:inline-block}details.addm>summary{list-style:none;cursor:pointer;padding:8px 14px;border-radius:12px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}details.addm>summary::-webkit-details-marker{display:none}details.addm>div{position:absolute;z-index:30;inset-inline-start:0;top:110%;min-width:230px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px;box-shadow:0 8px 24px #0003;display:flex;flex-direction:column;gap:4px}details.addm b{font-size:.8em;opacity:.7;margin-top:4px}details.addm button{text-align:start;padding:8px 10px;border:0;border-radius:8px;background:var(--surface2);cursor:pointer;font:inherit;font-weight:700}tr.sh th{font-size:.78em;background:var(--surface2);color:inherit}
+label.dlb{display:inline-flex;flex-direction:column;gap:2px;cursor:pointer;padding:9px 14px;border-radius:12px;border:2px solid var(--c);color:var(--c);background:#fff;min-width:150px}label.dlb:hover{background:var(--surface2)}label.dlb small{opacity:.75}.dlg{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -383,7 +384,7 @@ function incOf(m,M,det){
  const L=[],h=t=>L.push({k:'h',t}),r=(t,a,inp)=>L.push({k:'r',t,a,inp}),T=(t,a)=>L.push({k:'t',t,a});
  const xs=(k)=>(det&&M)?(M.xo||[]).map((x,i)=>({x,i})).filter(o=>o.x.k===k):[];
  h('الإيرادات');r('إيرادات الكاش (الفعلي)',m.cash);r('إيرادات الشبكة (الموازنة)',m.net);
- DL.forEach(([k,n])=>r('رصيد '+n+' (إدخال شهري)',m.dl[k],'dlb:'+k));
+ DL.forEach(([k,n])=>r('مبيعات '+n,m.dl[k],'dlb:'+k));
  if(det&&M){xs('i').forEach(o=>L.push({k:'c',t:o.x.n||'',a:num(o.x.a),i:o.i,x:o.x}));L.push({k:'add',t:'i'})}else r('إيرادات أخرى',m.xi||0);
  T('إجمالي الإيرادات',m.rev);
  h('تكلفة المبيعات');r('تكلفة المبيعات (إدخال شهري)',m.costT,'op:cos');T('مجمل الربح',m.rev-m.costT);
@@ -439,13 +440,12 @@ function dlCard(M){
  if(DLP){
   const T=dlSums(DLP.rows),n=T.ds.length,undated=Object.keys(DLP.rows).includes('');
   const ms=Object.entries(T.mm).map(([k,c])=>{const[y,m]=k.split('-');return`${AR[+m-1]} ${y} (${c} يوم)`}).join('، ');
-  const opts=DL.map(([k,nm])=>`<option value="${k}"${DLP.k===k?' selected':''}>${nm}</option>`).join('');
-  p=`<div class="card" style="border:2px dashed var(--accent)"><h3>🔎 مراجعة الكشف: ${esc(DLP.fn)}</h3><p class="hint">${esc(DLP.type)}${DLP.store?' · المتجر: <b>'+esc(DLP.store)+'</b>':''}${DLP.est?' — راجع الأرقام وعدّلها قبل الاعتماد.':''}</p><div class="fm"><label>الشركة<select id="dlk"><option value="">— اختر —</option>${opts}</select></label>`
+  p=`<div class="card" style="border:2px dashed var(--accent)"><h3>🔎 مراجعة الكشف: ${esc(DLP.fn)}</h3><p class="hint">${esc(DLP.type)}${DLP.store?' · المتجر: <b>'+esc(DLP.store)+'</b>':''}${DLP.est?' — راجع الأرقام وعدّلها قبل الاعتماد.':''}</p><div class="fm"><label>الشركة<b style="color:${(DL.find(x=>x[0]===DLP.k)||[])[2]}">${(DL.find(x=>x[0]===DLP.k)||[])[1]||''}</b><input type="hidden" id="dlk" value="${DLP.k}"></label>`
   +(DLP.est?`<label>إجمالي المبيعات<input id="dls" type="number" step="any" value="${T.s}"></label><label>العمولات والرسوم<input id="dlc" type="number" step="any" value="${T.c}"></label>${undated||!n?`<label>التاريخ (يوم من الشهر المطلوب)<input id="dld" type="date" value="${yr}-${String(mi+1).padStart(2,'0')}-01"></label>`:''}`
   :`<p>الفترة: <b>${T.ds[0]} → ${T.ds[n-1]}</b> (${n} يوم) — يُوزَّع على: ${ms}</p><p>إجمالي المبيعات: <b>${money(T.s)}</b> · العمولات والرسوم: <b>${money(T.c)}</b> (${T.s?(T.c/T.s*100).toFixed(1):0}%) · الصافي: <b>${money(T.s-T.c)}</b></p>`)
   +`</div><p style="margin-top:8px"><button class="pick" data-act="dlOk">✔ اعتماد</button> <button class="back" data-act="dlNo">إلغاء</button></p></div>`;
  }
- return p+`<div class="card" style="border-top:6px solid #e8590c"><h3>📥 رفع كشوف شركات التوصيل (Excel)</h3><p class="hint">ارفع كشف الشركة؛ يُقرأ إجمالي المبيعات كإيراد للشركة، وما يُخصم (عمولة ورسوم وحملات) كمصروف واحد مجمّع. يُوزَّع على الأشهر حسب تاريخ كل يوم، ورفع كشف لنفس الأيام يستبدل القديم. الفرع الحالي: <b>${esc(BNAME[br]||br)}</b>.</p><label class="ck">⬆ اختيار ملف الكشف<input type="file" accept=".xlsx,.xls,.csv" data-dls hidden></label>${done?`<div style="overflow:auto;margin-top:8px"><table><tr><th>الشركة</th><th>الأيام المقروءة</th><th>المبيعات</th><th>العمولات والرسوم</th><th></th></tr>${done}</table></div>`:''}</div>`;
+ return p+`<div class="card" style="border-top:6px solid #e8590c"><h3>📥 رفع كشوف شركات التوصيل (Excel)</h3><p class="hint">اضغط على زر الشركة وارفع كشفها؛ يُقرأ إجمالي المبيعات كإيراد للشركة، وما يُخصم (عمولة ورسوم وحملات) كمصروف واحد مجمّع. يُوزَّع على الأشهر حسب تاريخ كل يوم، ورفع كشف لنفس الأيام يستبدل القديم. الفرع الحالي: <b>${esc(BNAME[br]||br)}</b>.</p><div class="dlg">${DL.map(([k,n,c])=>`<label class="dlb" style="--c:${c}"><b>⬆ كشف ${n}</b><small>${(M.dd||{})[k]?Object.keys(M.dd[k]).length+' يوم مرفوع':'لم يُرفع بعد'}</small><input type="file" accept=".xlsx,.xls,.csv" data-dls="${k}" hidden></label>`).join('')}</div>${done?`<div style="overflow:auto;margin-top:8px"><table><tr><th>الشركة</th><th>الأيام المقروءة</th><th>المبيعات</th><th>العمولات والرسوم</th><th></th></tr>${done}</table></div>`:''}</div>`;
 }
 function dlApply(M){
  const k=($('#dlk')||{}).value;if(!k){msg='اختر شركة التوصيل أولاً.';return false}
@@ -741,7 +741,7 @@ app.addEventListener('change',async e=>{
  const i=e.target;
  if(i.dataset.cmp!==undefined){const n=+i.dataset.cmp;cmp=i.checked?[...new Set([...(cmp||[]),n])]:(cmp||[]).filter(x=>x!==n);render();return}
  if(!S||(SBON&&!ME))return;
- if(i.dataset.dls!==undefined){const f=i.files[0];i.value='';if(!f||RO||br===ALL)return;try{if(!window.XLSX)throw{message:'تعذّر تحميل مكتبة Excel.'};DLP=dlParse(XLSX.read(await f.arrayBuffer(),{type:'array'}),f.name);msg=''}catch(err){DLP=null;msg='تعذرت قراءة الملف: '+((err&&err.message)||'')}render();return}
+ if(i.dataset.dls!==undefined){const f=i.files[0];i.value='';if(!f||RO||br===ALL||!DL.some(x=>x[0]===i.dataset.dls))return;try{if(!window.XLSX)throw{message:'تعذّر تحميل مكتبة Excel.'};DLP=dlParse(XLSX.read(await f.arrayBuffer(),{type:'array'}),f.name);const was=DLP.k;DLP.k=i.dataset.dls;if(was==='kt'&&DLP.k!=='kt'&&!DLP.est)DLP.type+=' ⚠ التنسيق يطابق كشف كيتا، تأكد أنك رفعته على الشركة الصحيحة';msg=''}catch(err){DLP=null;msg='تعذرت قراءة الملف: '+((err&&err.message)||'')}render();return}
  if(i.dataset.u!==undefined)return userChange(i);
  if(i.dataset.af!==undefined){if(i.dataset.af==='u')audU=i.value;else audB=i.value;render();return}
  if(i.dataset.ck!==undefined){const n=+i.dataset.ck;ana=i.checked?[...new Set([...ana,n])]:ana.filter(x=>x!==n);render();return}
