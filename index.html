@@ -89,6 +89,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 @media (max-width:860px){.side{flex-direction:column;overflow:visible}.side h3{display:block}.sg{flex-direction:row;overflow-x:auto;padding-bottom:4px}.sn{flex:none;white-space:nowrap}}
 .ssub{display:flex;flex-direction:column;gap:4px;margin:-2px 14px 2px 0}.sn2{border:0;border-radius:10px;padding:6px 10px;background:#fff;color:var(--ink);font-weight:700;text-align:right;border:2px solid var(--line)}.sn2.on{border-color:var(--accent);background:var(--surface2)}
 @media (max-width:860px){.ssub{flex-direction:row;margin:0}.sn2{white-space:nowrap}}
+.tg{gap:9px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.tl{padding:9px 12px;border-radius:15px;border-top-width:5px}.ti{font-size:1.15rem;padding:1px 6px;border-radius:9px}.tt{font-size:.9rem;gap:6px}.tv{margin:5px 0 2px}.tv b{font-size:1.2rem}.tp{font-size:.8rem}.tl .bar{height:4px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 .hgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-bottom:14px;align-items:start}
@@ -192,7 +193,7 @@ function calc1(b,y,m){
  r.sk=has(M.sk)?+M.sk:0;r.sb=has(M.sb)?+M.sb:0;r.hs=(has(M.sk)||has(M.sb))?1:0;
  M.inv.forEach(v=>{r.ex[(v.t==='food'?'f':'p')+(v.hi?'i':'n')]+=num(v.tot)});
  r.exT=r.ex.fi+r.ex.fn+r.ex.pi+r.ex.pn;
- r.cost={bean:0,kit:0,wh:0};r.costT=num((M.op||{}).cos);const OP=M.op||{},DX=M.dx||{};r.opSal=num(OP.sal);r.opRent=num(OP.rent);r.opUtil=num(OP.util);r.dx={};DL.forEach(([k])=>{r.dx[k]=num(DX[k])});r.opDel=DL.reduce((a,[k])=>a+r.dx[k],0);r.xi=0;r.xe=0;(M.xo||[]).forEach(x=>{if(x.k==='i')r.xi+=num(x.a);else r.xe+=num(x.a)});r.rev+=r.xi;r.opT=r.opSal+r.opRent+r.opUtil+r.opDel+r.xe+r.exT;r.fd=0;r.nf=0;r.sal=r.opSal;r.ops=r.opT-r.opSal;r.oe=0;r.oi=0;r.dep=0;r.expAll=r.costT+r.opT+r.nf;r.ni0=r.rev-r.expAll;r.ni=r.ni0;
+ r.cost={bean:0,kit:0,wh:0};r.costT=num((M.op||{}).cos);const OP=M.op||{},DX=M.dx||{};r.opSal=num(OP.sal);r.opRent=num(OP.rent);r.opUtil=num(OP.util);r.dx={};DL.forEach(([k])=>{r.dx[k]=num(DX[k])});r.opDel=DL.reduce((a,[k])=>a+r.dx[k],0);r.xi=0;r.xe=0;(M.xo||[]).forEach(x=>{if(x.k==='i')r.xi+=num(x.a);else r.xe+=num(x.a)});r.rev+=r.xi;r.opT=r.opSal+r.opRent+r.opUtil+r.opDel+r.xe+r.ex.pi+r.ex.pn;r.fd=0;r.nf=0;r.sal=r.opSal;r.ops=r.opT-r.opSal;r.oe=0;r.oi=0;r.dep=0;r.expAll=r.costT+r.opT+r.nf;r.ni0=r.rev-r.expAll;r.ni=r.ni0;
  return r;
 }
 function CALC(b,y,m){if(b!==ALL)return calc1(b,y,m);const o={};S.branches.forEach(x=>addInto(o,calc1(x,y,m)));return o}
@@ -385,7 +386,7 @@ function incOf(m,M,det){
  h('تكلفة المبيعات');r('تكلفة المبيعات (إدخال شهري)',m.costT,'op:cos');T('مجمل الربح',m.rev-m.costT);
  h('المصروفات التشغيلية');r('الرواتب',m.opSal,'op:sal');r('الإيجارات',m.opRent,'op:rent');r('المرافق',m.opUtil,'op:util');DL.forEach(([k,n])=>r('مصروفات '+n,m.dx[k],'dx:'+k));
  if(det&&M){xs('e').forEach(o=>L.push({k:'c',t:o.x.n||'',a:num(o.x.a),i:o.i,x:o.x}));L.push({k:'add',t:'e'})}else r('بنود مصروفات إضافية',m.xe||0);
- r('مصروفات غذائية بفاتورة',m.ex.fi);r('مصروفات غذائية بدون فاتورة',m.ex.fn);r('مصروفات أخرى بفاتورة',m.ex.pi);r('مصروفات أخرى بدون فاتورة',m.ex.pn);
+ r('مصروفات أخرى بفاتورة',m.ex.pi);r('مصروفات أخرى بدون فاتورة',m.ex.pn);
  T('إجمالي المصروفات التشغيلية',m.opT);
  T('إجمالي المصروفات',m.expAll);T('صافي الدخل',m.ni0);
  return L;
@@ -401,7 +402,7 @@ function pgInc(){
   if(x.inp&&M){const[g,f]=x.inp.split(':'),raw=M[g]&&M[g][f];cell=`<span class="ie">${IN('iv:'+x.inp,has(raw)?raw:'')} <b>${S.cur}</b></span>`}
   return`<tr${x.k==='t'?' class="gr"':''}><td>${x.t}</td><td>${cell}</td><td>${V(pct(x.a,R))}</td></tr>`}).join('');
  const fi=m.ex.fi+m.ex.fn;
- return ph(`📑 قائمة الدخل: ${AR[mi]} ${yr}`,btn('xlInc','⬇ Excel')+' ')+`<div class="card"><p class="hint">${M?'إيرادات الكاش والشبكة تُحسب من صفحة تفاصيل المبيعات، والمصروفات الغذائية والأخرى من صفحة المصروفات التشغيلية. أما تكلفة المبيعات وأرصدة شركات التوصيل والرواتب والإيجارات والمرافق ومصروفات التوصيل فتُدخل يدوياً هنا مرة واحدة في الشهر، ويمكنك إضافة أي بند إيراد أو مصروف وتعديل اسمه ومبلغه.':'عرض مجمّع لكل الفروع. اختر فرعاً لإدخال أو تعديل الخانات اليدوية.'}</p>${M?`<p class="hint">المصروفات الغذائية والأخرى تُسحب تلقائياً من صفحة المصروفات التشغيلية، ولا تدخل في تكلفة المبيعات.</p>`:''}${TB(TH('البند')+TH('المبلغ','b')+TH('النسبة إلى إجمالي الإيرادات','a'),rows)}</div>${chartRev()}${chartCost()}`;
+ return ph(`📑 قائمة الدخل: ${AR[mi]} ${yr}`,btn('xlInc','⬇ Excel')+' ')+`<div class="card"><p class="hint">${M?'إيرادات الكاش والشبكة تُحسب من صفحة تفاصيل المبيعات، والمصروفات الأخرى من صفحة المصروفات التشغيلية. أما تكلفة المبيعات وأرصدة شركات التوصيل والرواتب والإيجارات والمرافق ومصروفات التوصيل فتُدخل يدوياً هنا مرة واحدة في الشهر، ويمكنك إضافة أي بند إيراد أو مصروف وتعديل اسمه ومبلغه.':'عرض مجمّع لكل الفروع. اختر فرعاً لإدخال أو تعديل الخانات اليدوية.'}</p>${M?`<p class="hint">المصروفات الأخرى (بفاتورة وبدون) تُسحب تلقائياً من صفحة المصروفات التشغيلية. أما المصروفات الغذائية فلا تظهر هنا لأنها محسوبة ضمن تكلفة المبيعات التي تُدخل يدوياً.</p>`:''}${TB(TH('البند')+TH('المبلغ','b')+TH('النسبة إلى إجمالي الإيرادات','a'),rows)}</div>${chartRev()}${chartCost()}`;
 }
 function pgAna(){
  if(!ana){ana=[];for(let i=0;i<12;i++)if(CALC(br,yr,i).rev>0||CALC(br,yr,i).expAll>0)ana.push(i)}
